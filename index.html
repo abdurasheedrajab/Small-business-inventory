@@ -106,6 +106,26 @@ body {
     background: #111827;
 }
 
+/* SHOP INFORMATION */
+
+.shop-info {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.shop-info h2 {
+    font-size: 21px;
+}
+
+.shop-info p {
+    margin-top: 6px;
+    color: #555;
+}
+
 /* TOP INPUT BOXES */
 
 .input-grid {
@@ -416,37 +436,122 @@ th {
 .receipt {
     display: none;
     background: white;
-    border: 2px solid #222;
-    border-radius: 10px;
-    padding: 20px;
+    border: 2px solid #111827;
+    border-radius: 12px;
+    padding: 22px;
     margin-top: 15px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.08);
 }
 
-.receipt h2 {
+.receipt-header {
     text-align: center;
-    margin-bottom: 10px;
+    padding-bottom: 15px;
+    border-bottom: 2px dashed #777;
 }
 
-.receipt-center {
-    text-align: center;
+.receipt-header h2 {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.receipt-header p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.receipt-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    padding: 12px 0;
+    font-size: 13px;
+}
+
+.receipt-items-title {
+    display: grid;
+    grid-template-columns: 2fr .7fr 1fr;
+    gap: 5px;
+    padding: 9px 0;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    font-weight: bold;
+}
+
+.receipt-item {
+    display: grid;
+    grid-template-columns: 2fr .7fr 1fr;
+    gap: 5px;
+    padding: 9px 0;
+    border-bottom: 1px dashed #ccc;
+    font-size: 14px;
+}
+
+.receipt-summary {
+    margin-top: 12px;
+    border-top: 2px solid #222;
+    padding-top: 8px;
 }
 
 .receipt-line {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
     padding: 7px 0;
-    border-bottom: 1px dashed #aaa;
 }
 
-.receipt-total {
-    font-size: 20px;
+.receipt-total-line {
+    font-size: 21px;
     font-weight: bold;
-    margin-top: 10px;
+    border-top: 1px dashed #777;
+    margin-top: 5px;
+    padding-top: 10px;
+}
+
+.receipt-footer {
+    text-align: center;
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 2px dashed #777;
+    font-size: 13px;
 }
 
 .send-btn {
-    margin-top: 10px;
+    margin-top: 15px;
     background: #16a34a;
+}
+
+.print-btn {
+    margin-top: 8px;
+    background: #374151;
+}
+
+/* RESET */
+
+.reset-box {
+    background: white;
+    border: 2px solid #dc2626;
+    border-radius: 10px;
+    padding: 18px;
+    margin-top: 15px;
+}
+
+.reset-box h2 {
+    color: #b91c1c;
+    margin-bottom: 8px;
+}
+
+.reset-box p {
+    font-size: 13px;
+    margin-bottom: 12px;
+    color: #555;
+}
+
+.reset-btn {
+    background: #dc2626;
+}
+
+.reset-btn:hover {
+    background: #991b1b;
 }
 
 /* FOOTER */
@@ -476,10 +581,17 @@ body.dark .low-stock,
 body.dark .profit,
 body.dark .users,
 body.dark #loginScreen,
-body.dark .receipt {
+body.dark .receipt,
+body.dark .shop-info,
+body.dark .reset-box {
     background: #1f2937;
     color: white;
     border-color: #4b5563;
+}
+
+body.dark .shop-info p,
+body.dark .reset-box p {
+    color: #d1d5db;
 }
 
 body.dark input,
@@ -535,6 +647,10 @@ body.dark #lowStockList li {
     .top-actions button {
         width: 100%;
     }
+
+    .receipt-meta {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 </head>
@@ -546,6 +662,12 @@ body.dark #lowStockList li {
 <div id="loginScreen">
 
     <h2>SMALL INVENTORY BUSINESS</h2>
+
+    <input
+        class="login-input"
+        id="shopName"
+        type="text"
+        placeholder="Shop name">
 
     <input
         class="login-input"
@@ -617,6 +739,21 @@ body.dark #lowStockList li {
     </div>
 
 
+    <!-- SHOP INFORMATION -->
+
+    <div class="shop-info">
+
+        <h2 id="dashboardShopName">
+            SMALL INVENTORY BUSINESS
+        </h2>
+
+        <p>
+            📞 <span id="dashboardShopPhone">-</span>
+        </p>
+
+    </div>
+
+
     <!-- CUSTOMER PHONE -->
 
     <div class="customer-box">
@@ -658,7 +795,8 @@ body.dark #lowStockList li {
                 type="number"
                 id="saleQuantity"
                 value="1"
-                min="1">
+                min="1"
+                step="1">
 
         </div>
 
@@ -670,7 +808,8 @@ body.dark #lowStockList li {
             <input
                 type="number"
                 id="cash"
-                placeholder="0">
+                placeholder="0"
+                min="0">
 
         </div>
 
@@ -791,17 +930,20 @@ body.dark #lowStockList li {
             <input
                 type="number"
                 id="buyPrice"
-                placeholder="Buy price">
+                placeholder="Buy price"
+                min="0">
 
             <input
                 type="number"
                 id="sellPrice"
-                placeholder="Sell price">
+                placeholder="Sell price"
+                min="0">
 
             <input
                 type="number"
                 id="quantity"
-                placeholder="Quantity">
+                placeholder="Quantity"
+                min="1">
 
         </div>
 
@@ -828,25 +970,11 @@ body.dark #lowStockList li {
 
                 <tr>
 
-                    <th>
-                        Product
-                    </th>
-
-                    <th>
-                        Buy Price
-                    </th>
-
-                    <th>
-                        Sell Price
-                    </th>
-
-                    <th>
-                        Stock
-                    </th>
-
-                    <th>
-                        Action
-                    </th>
+                    <th>Product</th>
+                    <th>Buy Price</th>
+                    <th>Sell Price</th>
+                    <th>Stock</th>
+                    <th>Action</th>
 
                 </tr>
 
@@ -902,57 +1030,124 @@ body.dark #lowStockList li {
         class="receipt"
         id="receipt">
 
-        <h2>
-            RECEIPT
-        </h2>
+        <div class="receipt-header">
 
-        <div
-            class="receipt-center"
-            id="receiptShop">
+            <h2 id="receiptShopName">
+                SHOP
+            </h2>
+
+            <p>
+                📞 <span id="receiptShopPhone">-</span>
+            </p>
+
+            <p>
+                <strong>SALES RECEIPT</strong>
+            </p>
+
         </div>
 
-        <hr><br>
+
+        <div class="receipt-meta">
+
+            <div>
+                Receipt No:
+                <strong id="receiptNumber">-</strong>
+            </div>
+
+            <div>
+                Date:
+                <strong id="receiptDate">-</strong>
+            </div>
+
+            <div>
+                Customer:
+                <strong id="receiptCustomer">-</strong>
+            </div>
+
+            <div>
+                Time:
+                <strong id="receiptTime">-</strong>
+            </div>
+
+        </div>
+
+
+        <div class="receipt-items-title">
+
+            <span>ITEM</span>
+            <span>QTY</span>
+            <span>AMOUNT</span>
+
+        </div>
+
 
         <div id="receiptItems"></div>
 
-        <div class="receipt-line">
-            <span>Total</span>
-            <span id="receiptTotal">
-                MK 0
-            </span>
+
+        <div class="receipt-summary">
+
+            <div class="receipt-line receipt-total-line">
+
+                <span>TOTAL</span>
+
+                <span id="receiptTotal">
+                    MK 0
+                </span>
+
+            </div>
+
+
+            <div class="receipt-line">
+
+                <span>Cash Received</span>
+
+                <span id="receiptCash">
+                    MK 0
+                </span>
+
+            </div>
+
+
+            <div class="receipt-line">
+
+                <span>Change</span>
+
+                <span id="receiptChange">
+                    MK 0
+                </span>
+
+            </div>
+
         </div>
 
-        <div class="receipt-line">
-            <span>Cash</span>
-            <span id="receiptCash">
-                MK 0
-            </span>
+
+        <div class="receipt-footer">
+
+            <strong>
+                Thank you for shopping with us!
+            </strong>
+
+            <br><br>
+
+            Powered by
+            <strong>
+                Abdurasheed Rajab
+            </strong>
+
         </div>
 
-        <div class="receipt-line">
-            <span>Change</span>
-            <span id="receiptChange">
-                MK 0
-            </span>
-        </div>
-
-        <div class="receipt-line">
-            <span>Customer Phone</span>
-            <span id="receiptCustomer">
-                -
-            </span>
-        </div>
-
-        <br>
-
-        <div class="receipt-center">
-            Thank you for shopping with us!
-        </div>
 
         <button
             class="send-btn"
             onclick="sendReceipt()">
-            📤 SEND RECEIPT
+            📤 SEND / SHARE RECEIPT
+        </button>
+
+
+        <button
+            class="print-btn"
+            onclick="printReceipt()">
+            🖨️ PRINT RECEIPT
         </button>
 
     </div>
@@ -970,6 +1165,29 @@ body.dark #lowStockList li {
         </h2>
 
         <div id="usersList"></div>
+
+    </div>
+
+
+    <!-- RESET ALL -->
+
+    <div class="reset-box">
+
+        <h2>
+            ⚠️ RESET ALL DATA
+        </h2>
+
+        <p>
+            This will permanently delete the current shop's
+            products, sales, sales history and account data
+            from this browser.
+        </p>
+
+        <button
+            class="reset-btn"
+            onclick="resetAllData()">
+            🗑️ RESET EVERYTHING
+        </button>
 
     </div>
 
@@ -996,7 +1214,9 @@ body.dark #lowStockList li {
 
 let accounts =
     JSON.parse(
-        localStorage.getItem("inventoryAccounts")
+        localStorage.getItem(
+            "inventoryAccounts"
+        )
     ) || [];
 
 
@@ -1006,34 +1226,20 @@ let accounts =
 
 let currentUser =
     JSON.parse(
-        localStorage.getItem("inventoryCurrentUser")
+        localStorage.getItem(
+            "inventoryCurrentUser"
+        )
     );
 
 
 /* =========================
-   PRODUCTS
+   BUSINESS DATA
 ========================= */
 
-let products =
-    JSON.parse(
-        localStorage.getItem("inventoryProducts")
-    ) || [];
-
-
-/* =========================
-   SALES
-========================= */
-
-let totalSales =
-    Number(
-        localStorage.getItem("inventorySales")
-    ) || 0;
-
-
-let totalCost =
-    Number(
-        localStorage.getItem("inventoryCost")
-    ) || 0;
+let products = [];
+let totalSales = 0;
+let totalCost = 0;
+let salesHistory = [];
 
 
 /* =========================
@@ -1041,6 +1247,80 @@ let totalCost =
 ========================= */
 
 let cart = [];
+
+
+/* =========================
+   LAST RECEIPT
+========================= */
+
+let lastReceipt = null;
+
+
+/* =========================
+   STORAGE KEY
+========================= */
+
+function storageKey(type) {
+
+    if (!currentUser) {
+
+        return "inventory_" + type;
+
+    }
+
+    return (
+        "inventory_" +
+        type +
+        "_" +
+        currentUser.username +
+        "_" +
+        currentUser.shopPhone
+    );
+
+}
+
+
+/* =========================
+   LOAD USER DATA
+========================= */
+
+function loadUserData() {
+
+    if (!currentUser) return;
+
+
+    products =
+        JSON.parse(
+            localStorage.getItem(
+                storageKey("products")
+            )
+        ) || [];
+
+
+    totalSales =
+        Number(
+            localStorage.getItem(
+                storageKey("sales")
+            )
+        ) || 0;
+
+
+    totalCost =
+        Number(
+            localStorage.getItem(
+                storageKey("cost")
+            )
+        ) || 0;
+
+
+    salesHistory =
+        JSON.parse(
+            localStorage.getItem(
+                storageKey("history")
+            )
+        ) || [];
+
+}
 
 
 /* =========================
@@ -1054,19 +1334,31 @@ function saveData() {
         JSON.stringify(accounts)
     );
 
+
+    if (!currentUser) return;
+
+
     localStorage.setItem(
-        "inventoryProducts",
+        storageKey("products"),
         JSON.stringify(products)
     );
 
+
     localStorage.setItem(
-        "inventorySales",
+        storageKey("sales"),
         totalSales
     );
 
+
     localStorage.setItem(
-        "inventoryCost",
+        storageKey("cost"),
         totalCost
+    );
+
+
+    localStorage.setItem(
+        storageKey("history"),
+        JSON.stringify(salesHistory)
     );
 
 }
@@ -1078,20 +1370,39 @@ function saveData() {
 
 function createAccount() {
 
+    const shopName =
+        document.getElementById(
+            "shopName"
+        ).value.trim();
+
+
     const username =
-        document.getElementById("username").value.trim();
+        document.getElementById(
+            "username"
+        ).value.trim();
+
 
     const password =
-        document.getElementById("password").value;
+        document.getElementById(
+            "password"
+        ).value;
+
 
     const shopPhone =
-        document.getElementById("shopPhone").value.trim();
+        document.getElementById(
+            "shopPhone"
+        ).value.trim();
 
 
-    if (!username || !password || !shopPhone) {
+    if (
+        !shopName ||
+        !username ||
+        !password ||
+        !shopPhone
+    ) {
 
         alert(
-            "Please enter username, password and shop phone."
+            "Please enter shop name, username, password and shop phone."
         );
 
         return;
@@ -1100,13 +1411,17 @@ function createAccount() {
 
     const exists =
         accounts.find(
-            user => user.username === username
+            user =>
+                user.username.toLowerCase() ===
+                username.toLowerCase()
         );
 
 
     if (exists) {
 
-        alert("Username already exists.");
+        alert(
+            "Username already exists."
+        );
 
         return;
     }
@@ -1114,14 +1429,25 @@ function createAccount() {
 
     accounts.push({
 
-        username: username,
-        password: password,
-        shopPhone: shopPhone
+        shopName:
+            shopName,
+
+        username:
+            username,
+
+        password:
+            password,
+
+        shopPhone:
+            shopPhone
 
     });
 
 
-    saveData();
+    localStorage.setItem(
+        "inventoryAccounts",
+        JSON.stringify(accounts)
+    );
 
 
     alert(
@@ -1138,21 +1464,29 @@ function createAccount() {
 function login() {
 
     const username =
-        document.getElementById("username").value.trim();
+        document.getElementById(
+            "username"
+        ).value.trim();
+
 
     const password =
-        document.getElementById("password").value;
+        document.getElementById(
+            "password"
+        ).value;
+
 
     const shopPhone =
-        document.getElementById("shopPhone").value.trim();
+        document.getElementById(
+            "shopPhone"
+        ).value.trim();
 
 
     const user =
         accounts.find(
             u =>
-            u.username === username &&
-            u.password === password &&
-            u.shopPhone === shopPhone
+                u.username === username &&
+                u.password === password &&
+                u.shopPhone === shopPhone
         );
 
 
@@ -1173,6 +1507,9 @@ function login() {
         "inventoryCurrentUser",
         JSON.stringify(user)
     );
+
+
+    loadUserData();
 
 
     document.getElementById(
@@ -1245,7 +1582,8 @@ function addProduct() {
         !name ||
         buy <= 0 ||
         sell <= 0 ||
-        quantity <= 0
+        quantity <= 0 ||
+        !Number.isInteger(quantity)
     ) {
 
         alert(
@@ -1258,15 +1596,21 @@ function addProduct() {
 
     products.push({
 
-        id: Date.now(),
+        id:
+            Date.now() +
+            Math.random(),
 
-        name: name,
+        name:
+            name,
 
-        buy: buy,
+        buy:
+            buy,
 
-        sell: sell,
+        sell:
+            sell,
 
-        quantity: quantity
+        quantity:
+            quantity
 
     });
 
@@ -1348,10 +1692,11 @@ function editProduct(id) {
 
 
     if (
-        !name ||
+        !name.trim() ||
         buy <= 0 ||
         sell <= 0 ||
-        quantity < 0
+        quantity < 0 ||
+        !Number.isInteger(quantity)
     ) {
 
         alert(
@@ -1362,10 +1707,17 @@ function editProduct(id) {
     }
 
 
-    product.name = name;
-    product.buy = buy;
-    product.sell = sell;
-    product.quantity = quantity;
+    product.name =
+        name.trim();
+
+    product.buy =
+        buy;
+
+    product.sell =
+        sell;
+
+    product.quantity =
+        quantity;
 
 
     saveData();
@@ -1390,7 +1742,15 @@ function deleteProduct(id) {
 
     products =
         products.filter(
-            product => product.id !== id
+            product =>
+                product.id !== id
+        );
+
+
+    cart =
+        cart.filter(
+            item =>
+                item.id !== id
         );
 
 
@@ -1491,7 +1851,7 @@ function addToCart() {
     ) {
 
         alert(
-            "Enter a valid quantity."
+            "Enter a valid whole quantity."
         );
 
         return;
@@ -1500,7 +1860,8 @@ function addToCart() {
 
     const alreadyInCart =
         cart.find(
-            item => item.id === id
+            item =>
+                item.id === id
         );
 
 
@@ -1511,7 +1872,8 @@ function addToCart() {
 
 
     if (
-        existingQuantity + quantity >
+        existingQuantity +
+        quantity >
         product.quantity
     ) {
 
@@ -1525,21 +1887,27 @@ function addToCart() {
 
     if (alreadyInCart) {
 
-        alreadyInCart.quantity += quantity;
+        alreadyInCart.quantity +=
+            quantity;
 
     } else {
 
         cart.push({
 
-            id: product.id,
+            id:
+                product.id,
 
-            name: product.name,
+            name:
+                product.name,
 
-            buy: product.buy,
+            buy:
+                product.buy,
 
-            sell: product.sell,
+            sell:
+                product.sell,
 
-            quantity: quantity
+            quantity:
+                quantity
 
         });
 
@@ -1576,10 +1944,12 @@ function updateCart() {
         list.textContent =
             "No products added.";
 
+
         document.getElementById(
             "customerTotal"
         ).textContent =
             "MK 0";
+
 
         calculateChange();
 
@@ -1609,7 +1979,7 @@ function updateCart() {
 
                 <div>
                     <strong>
-                        ${item.name}
+                        ${escapeHTML(item.name)}
                     </strong>
                 </div>
 
@@ -1620,24 +1990,31 @@ function updateCart() {
                 <input
                     type="number"
                     min="1"
+                    step="1"
                     value="${item.quantity}"
                     onchange="changeCartQuantity(${item.id}, this.value)"
                 >
 
                 <div>
+
                     MK ${total.toLocaleString()}
+
                     <br>
+
                     <button
                         class="remove-btn"
                         onclick="removeFromCart(${item.id})">
                         Remove
                     </button>
+
                 </div>
 
             `;
 
 
-            list.appendChild(row);
+            list.appendChild(
+                row
+            );
 
         }
     );
@@ -1676,7 +2053,8 @@ function changeCartQuantity(
     if (
         !product ||
         !item ||
-        quantity <= 0
+        quantity <= 0 ||
+        !Number.isInteger(quantity)
     ) {
 
         updateCart();
@@ -1717,7 +2095,8 @@ function removeFromCart(id) {
 
     cart =
         cart.filter(
-            item => item.id !== id
+            item =>
+                item.id !== id
         );
 
 
@@ -1834,7 +2213,10 @@ function recordSale() {
         );
 
 
-    if (cash < total) {
+    if (
+        !Number.isFinite(cash) ||
+        cash < total
+    ) {
 
         alert(
             "Cash received is not enough."
@@ -1850,14 +2232,48 @@ function recordSale() {
         ).value.trim();
 
 
-    /* UPDATE STOCK */
+    /* CHECK STOCK AGAIN */
+
+    for (
+        const item of cart
+    ) {
+
+        const product =
+            products.find(
+                p =>
+                    p.id === item.id
+            );
+
+
+        if (
+            !product ||
+            product.quantity <
+            item.quantity
+        ) {
+
+            alert(
+                "Not enough stock for " +
+                item.name
+            );
+
+            updateApp();
+
+            return;
+        }
+
+    }
+
+
+    let saleCost = 0;
+
 
     cart.forEach(
         item => {
 
             const product =
                 products.find(
-                    p => p.id === item.id
+                    p =>
+                        p.id === item.id
                 );
 
 
@@ -1865,12 +2281,7 @@ function recordSale() {
                 item.quantity;
 
 
-            totalSales +=
-                item.sell *
-                item.quantity;
-
-
-            totalCost +=
+            saleCost +=
                 item.buy *
                 item.quantity;
 
@@ -1878,21 +2289,94 @@ function recordSale() {
     );
 
 
+    totalSales += total;
+
+    totalCost += saleCost;
+
+
     const change =
         cash - total;
 
 
-    /* RECEIPT */
+    const now =
+        new Date();
 
-    createReceipt(
-        total,
-        cash,
-        change,
-        customerPhone
+
+    const receiptNumber =
+        "R-" +
+        now.getFullYear() +
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0") +
+        String(
+            now.getDate()
+        ).padStart(2, "0") +
+        "-" +
+        String(
+            Date.now()
+        ).slice(-6);
+
+
+    const sale = {
+
+        id:
+            Date.now(),
+
+        receiptNumber:
+            receiptNumber,
+
+        date:
+            now.toISOString(),
+
+        total:
+            total,
+
+        cost:
+            saleCost,
+
+        profit:
+            total - saleCost,
+
+        cash:
+            cash,
+
+        change:
+            change,
+
+        customerPhone:
+            customerPhone,
+
+        items:
+            cart.map(
+                item => ({
+
+                    name:
+                        item.name,
+
+                    quantity:
+                        item.quantity,
+
+                    sell:
+                        item.sell,
+
+                    buy:
+                        item.buy
+
+                })
+            )
+
+    };
+
+
+    salesHistory.push(
+        sale
     );
 
 
-    /* RESET CUSTOMER */
+    createReceipt(
+        sale
+    );
+
 
     cart = [];
 
@@ -1929,11 +2413,12 @@ function recordSale() {
 ========================= */
 
 function createReceipt(
-    total,
-    cash,
-    change,
-    customerPhone
+    sale
 ) {
+
+    lastReceipt =
+        sale;
+
 
     const receipt =
         document.getElementById(
@@ -1945,20 +2430,47 @@ function createReceipt(
         "block";
 
 
+    const saleDate =
+        new Date(
+            sale.date
+        );
+
+
     document.getElementById(
-        "receiptShop"
-    ).innerHTML = `
+        "receiptShopName"
+    ).textContent =
+        currentUser.shopName;
 
-        <strong>
-            SMALL INVENTORY BUSINESS
-        </strong>
 
-        <br>
+    document.getElementById(
+        "receiptShopPhone"
+    ).textContent =
+        currentUser.shopPhone;
 
-        Shop Phone:
-        ${currentUser.shopPhone}
 
-    `;
+    document.getElementById(
+        "receiptNumber"
+    ).textContent =
+        sale.receiptNumber;
+
+
+    document.getElementById(
+        "receiptDate"
+    ).textContent =
+        saleDate.toLocaleDateString();
+
+
+    document.getElementById(
+        "receiptTime"
+    ).textContent =
+        saleDate.toLocaleTimeString();
+
+
+    document.getElementById(
+        "receiptCustomer"
+    ).textContent =
+        sale.customerPhone ||
+        "-";
 
 
     const items =
@@ -1970,7 +2482,7 @@ function createReceipt(
     items.innerHTML = "";
 
 
-    cart.forEach(
+    sale.items.forEach(
         item => {
 
             const line =
@@ -1980,19 +2492,26 @@ function createReceipt(
 
 
             line.className =
-                "receipt-line";
+                "receipt-item";
+
+
+            const amount =
+                item.sell *
+                item.quantity;
 
 
             line.innerHTML = `
 
                 <span>
-                    ${item.name}
-                    × ${item.quantity}
+                    ${escapeHTML(item.name)}
                 </span>
 
                 <span>
-                    MK ${(item.sell * item.quantity)
-                    .toLocaleString()}
+                    ${item.quantity}
+                </span>
+
+                <span>
+                    MK ${amount.toLocaleString()}
                 </span>
 
             `;
@@ -2010,130 +2529,214 @@ function createReceipt(
         "receiptTotal"
     ).textContent =
         "MK " +
-        total.toLocaleString();
+        sale.total.toLocaleString();
 
 
     document.getElementById(
         "receiptCash"
     ).textContent =
         "MK " +
-        cash.toLocaleString();
+        sale.cash.toLocaleString();
 
 
     document.getElementById(
         "receiptChange"
     ).textContent =
         "MK " +
-        change.toLocaleString();
-
-
-    document.getElementById(
-        "receiptCustomer"
-    ).textContent =
-        customerPhone || "-";
+        sale.change.toLocaleString();
 
 }
 
 
 /* =========================
-   SEND RECEIPT
+   SEND / SHARE RECEIPT
 ========================= */
 
 function sendReceipt() {
 
-    const customer =
-        document.getElementById(
-            "customerPhone"
-        ).value.trim();
+    if (!lastReceipt) {
 
+        alert(
+            "No receipt is available."
+        );
 
-    const total =
-        document.getElementById(
-            "receiptTotal"
-        ).textContent;
-
-
-    const cash =
-        document.getElementById(
-            "receiptCash"
-        ).textContent;
-
-
-    const change =
-        document.getElementById(
-            "receiptChange"
-        ).textContent;
+        return;
+    }
 
 
     let message =
-        "SMALL INVENTORY BUSINESS%0A";
+        currentUser.shopName +
+        "\n";
 
 
     message +=
         "Shop Phone: " +
         currentUser.shopPhone +
-        "%0A";
+        "\n";
 
 
     message +=
-        "Total: " +
-        total +
-        "%0A";
+        "RECEIPT: " +
+        lastReceipt.receiptNumber +
+        "\n";
 
 
     message +=
-        "Cash: " +
-        cash +
-        "%0A";
+        "Date: " +
+        new Date(
+            lastReceipt.date
+        ).toLocaleString() +
+        "\n";
 
 
     message +=
-        "Change: " +
-        change +
-        "%0A%0A";
+        "-------------------------\n";
+
+
+    message +=
+        "ITEMS\n";
+
+
+    lastReceipt.items.forEach(
+        item => {
+
+            message +=
+                item.name +
+                " x " +
+                item.quantity +
+                " = MK " +
+                (
+                    item.sell *
+                    item.quantity
+                ).toLocaleString() +
+                "\n";
+
+        }
+    );
+
+
+    message +=
+        "-------------------------\n";
+
+
+    message +=
+        "Total: MK " +
+        lastReceipt.total.toLocaleString() +
+        "\n";
+
+
+    message +=
+        "Cash: MK " +
+        lastReceipt.cash.toLocaleString() +
+        "\n";
+
+
+    message +=
+        "Change: MK " +
+        lastReceipt.change.toLocaleString() +
+        "\n";
+
+
+    message +=
+        "Customer Phone: " +
+        (
+            lastReceipt.customerPhone ||
+            "-"
+        ) +
+        "\n\n";
 
 
     message +=
         "Thank you for shopping with us!";
 
 
-    if (customer) {
+    if (
+        lastReceipt.customerPhone
+    ) {
 
-        window.open(
+        const smsURL =
             "sms:" +
-            customer +
+            encodeURIComponent(
+                lastReceipt.customerPhone
+            ) +
             "?body=" +
-            message,
-            "_self"
-        );
-
-    } else {
-
-        if (
-            navigator.share
-        ) {
-
-            navigator.share({
-
-                title:
-                    "Receipt",
-
-                text:
-                    decodeURIComponent(
-                        message
-                    )
-
-            });
-
-        } else {
-
-            alert(
-                "Enter the customer phone number first."
+            encodeURIComponent(
+                message
             );
 
-        }
 
+        window.location.href =
+            smsURL;
+
+
+        return;
     }
+
+
+    if (
+        navigator.share
+    ) {
+
+        navigator.share({
+
+            title:
+                "Receipt - " +
+                currentUser.shopName,
+
+            text:
+                message
+
+        }).catch(
+            () => {}
+        );
+
+
+        return;
+    }
+
+
+    alert(
+        "No customer phone number was provided."
+    );
+
+}
+
+
+/* =========================
+   PRINT RECEIPT
+========================= */
+
+function printReceipt() {
+
+    if (!lastReceipt) {
+
+        alert(
+            "No receipt is available."
+        );
+
+        return;
+    }
+
+
+    const receipt =
+        document.getElementById(
+            "receipt"
+        );
+
+
+    const oldDisplay =
+        receipt.style.display;
+
+
+    receipt.style.display =
+        "block";
+
+
+    window.print();
+
+
+    receipt.style.display =
+        oldDisplay;
 
 }
 
@@ -2165,7 +2768,7 @@ function updateTable() {
             row.innerHTML = `
 
                 <td>
-                    ${product.name}
+                    ${escapeHTML(product.name)}
                 </td>
 
                 <td>
@@ -2283,6 +2886,77 @@ function updateLowStock() {
 
 
 /* =========================
+   TODAY'S PROFIT
+========================= */
+
+function getTodayStats() {
+
+    const today =
+        new Date()
+            .toISOString()
+            .slice(
+                0,
+                10
+            );
+
+
+    let sales = 0;
+
+    let cost = 0;
+
+
+    salesHistory.forEach(
+        sale => {
+
+            const saleDay =
+                new Date(
+                    sale.date
+                )
+                .toISOString()
+                .slice(
+                    0,
+                    10
+                );
+
+
+            if (
+                saleDay === today
+            ) {
+
+                sales +=
+                    Number(
+                        sale.total
+                    ) || 0;
+
+
+                cost +=
+                    Number(
+                        sale.cost
+                    ) || 0;
+
+            }
+
+        }
+    );
+
+
+    return {
+
+        sales:
+            sales,
+
+        cost:
+            cost,
+
+        profit:
+            sales - cost
+
+    };
+
+}
+
+
+/* =========================
    UPDATE DASHBOARD
 ========================= */
 
@@ -2297,9 +2971,8 @@ function updateDashboard() {
         );
 
 
-    const profit =
-        totalSales -
-        totalCost;
+    const todayStats =
+        getTodayStats();
 
 
     document.getElementById(
@@ -2328,7 +3001,9 @@ function updateDashboard() {
         );
 
 
-    if (profit >= 0) {
+    if (
+        todayStats.profit >= 0
+    ) {
 
         profitElement.className =
             "profit-good";
@@ -2336,7 +3011,7 @@ function updateDashboard() {
 
         profitElement.textContent =
             "🟢 PROFIT: MK " +
-            profit.toLocaleString();
+            todayStats.profit.toLocaleString();
 
     } else {
 
@@ -2347,10 +3022,33 @@ function updateDashboard() {
         profitElement.textContent =
             "🔴 LOSS: MK " +
             Math.abs(
-                profit
+                todayStats.profit
             ).toLocaleString();
 
     }
+
+}
+
+
+/* =========================
+   SHOP INFORMATION
+========================= */
+
+function updateShopInformation() {
+
+    if (!currentUser) return;
+
+
+    document.getElementById(
+        "dashboardShopName"
+    ).textContent =
+        currentUser.shopName;
+
+
+    document.getElementById(
+        "dashboardShopPhone"
+    ).textContent =
+        currentUser.shopPhone;
 
 }
 
@@ -2379,6 +3077,8 @@ function showUsers() {
         box.style.display =
             "none";
 
+        return;
+
     }
 
 
@@ -2389,6 +3089,17 @@ function showUsers() {
 
 
     list.innerHTML = "";
+
+
+    if (
+        accounts.length === 0
+    ) {
+
+        list.textContent =
+            "No registered users.";
+
+        return;
+    }
 
 
     accounts.forEach(
@@ -2407,12 +3118,16 @@ function showUsers() {
             row.innerHTML = `
 
                 👤 <strong>
-                    ${user.username}
+                    ${escapeHTML(user.username)}
                 </strong>
 
                 <br>
 
-                📞 ${user.shopPhone}
+                🏪 ${escapeHTML(user.shopName)}
+
+                <br>
+
+                📞 ${escapeHTML(user.shopPhone)}
 
             `;
 
@@ -2423,6 +3138,110 @@ function showUsers() {
 
         }
     );
+
+}
+
+
+/* =========================
+   RESET ALL DATA
+========================= */
+
+function resetAllData() {
+
+    if (!currentUser) {
+
+        alert(
+            "Please login first."
+        );
+
+        return;
+    }
+
+
+    const firstConfirm =
+        confirm(
+            "WARNING!\n\nThis will delete all products, sales, history and the current account data.\n\nDo you want to continue?"
+        );
+
+
+    if (!firstConfirm) return;
+
+
+    const secondConfirm =
+        confirm(
+            "FINAL WARNING!\n\nALL DATA FOR THIS SHOP WILL BE DELETED FROM THIS BROWSER.\n\nPress OK to permanently delete it."
+        );
+
+
+    if (!secondConfirm) return;
+
+
+    const userPrefix =
+        "inventory_";
+
+
+    localStorage.removeItem(
+        storageKey("products")
+    );
+
+
+    localStorage.removeItem(
+        storageKey("sales")
+    );
+
+
+    localStorage.removeItem(
+        storageKey("cost")
+    );
+
+
+    localStorage.removeItem(
+        storageKey("history")
+    );
+
+
+    accounts =
+        accounts.filter(
+            user =>
+                !(
+                    user.username ===
+                    currentUser.username &&
+                    user.shopPhone ===
+                    currentUser.shopPhone
+                )
+        );
+
+
+    localStorage.setItem(
+        "inventoryAccounts",
+        JSON.stringify(accounts)
+    );
+
+
+    localStorage.removeItem(
+        "inventoryCurrentUser"
+    );
+
+
+    products = [];
+
+    totalSales = 0;
+
+    totalCost = 0;
+
+    salesHistory = [];
+
+    cart = [];
+
+    lastReceipt = null;
+
+
+    alert(
+        "All data for this shop has been deleted."
+    );
+
+
+    location.reload();
 
 }
 
@@ -2449,10 +3268,43 @@ function toggleDarkMode() {
 
 
 /* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================
    UPDATE EVERYTHING
 ========================= */
 
 function updateApp() {
+
+    updateShopInformation();
 
     updateProductSelect();
 
@@ -2486,6 +3338,9 @@ if (
 
 if (currentUser) {
 
+    loadUserData();
+
+
     document.getElementById(
         "loginScreen"
     ).style.display = "none";
@@ -2503,4 +3358,4 @@ if (currentUser) {
 </script>
 
 </body>
-                          </html>
+                </html>
