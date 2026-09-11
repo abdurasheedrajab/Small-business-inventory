@@ -6,1601 +6,3356 @@
 <title>Small Inventory Business</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,Helvetica,sans-serif;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-body{
-    background:#f4f7f5;
-    color:#222;
-    min-height:100vh;
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f3f6;
+    color: #222;
+    transition: .3s;
 }
 
-/* DARK MODE */
-body.dark{
-    background:#101714;
-    color:#eee;
+.header {
+    background: #1f2937;
+    color: white;
+    text-align: center;
+    padding: 22px 10px;
 }
 
-body.dark .box,
-body.dark .stat,
-body.dark .inventory-box,
-body.dark .login-box,
-body.dark .receipt{
-    background:#18211d;
-    color:#eee;
+.header h1 {
+    font-size: 25px;
+    letter-spacing: 1px;
 }
 
-body.dark input,
-body.dark select{
-    background:#fff;
-    color:#111;
+.header p {
+    margin-top: 5px;
+    opacity: 0.8;
 }
 
-/* THEME BUTTON */
-#themeBtn{
-    position:fixed;
-    top:10px;
-    right:10px;
-    width:36px;
-    height:36px;
-    border:none;
-    border-radius:50%;
-    background:#198754;
-    color:white;
-    cursor:pointer;
-    font-size:18px;
-    z-index:9999;
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 15px;
 }
 
 /* LOGIN */
-#loginPage{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
+
+#loginScreen {
+    max-width: 430px;
+    margin: 70px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    box-shadow: 0 5px 20px rgba(0,0,0,.08);
 }
 
-.login-box{
-    width:100%;
-    max-width:420px;
-    background:white;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 5px 25px rgba(0,0,0,.12);
+#loginScreen h2 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.login-box h1{
-    text-align:center;
-    color:#198754;
-    margin-bottom:8px;
+.login-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    font-size: 15px;
 }
 
-.login-box h2{
-    text-align:center;
-    margin-bottom:20px;
+.login-buttons {
+    display: grid;
+    gap: 8px;
 }
 
-.login-box input{
-    width:100%;
-    padding:13px;
-    margin:7px 0;
-    border:1px solid #ccc;
-    border-radius:8px;
+.secondary-btn {
+    background: #374151;
 }
 
-.main-btn{
-    width:100%;
-    padding:13px;
-    border:none;
-    border-radius:8px;
-    background:#198754;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:10px;
+.secondary-btn:hover {
+    background: #111827;
 }
 
-.switch{
-    text-align:center;
-    margin-top:15px;
-    cursor:pointer;
-    color:#198754;
+/* TOP BAR */
+
+.top-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
 }
 
-/* MAIN */
-#app{
-    display:none;
-    max-width:1100px;
-    margin:auto;
-    padding:15px;
+.top-actions button {
+    width: auto;
+    flex: 1;
 }
 
-header{
-    background:#198754;
-    color:white;
-    text-align:center;
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:15px;
+.logout {
+    background: #dc2626;
 }
 
-header h1{
-    font-size:27px;
+.logout:hover {
+    background: #b91c1c;
 }
 
-header p{
-    margin-top:5px;
+.mode {
+    background: #111827;
 }
 
-/* BOXES */
-.box{
-    background:white;
-    padding:15px;
-    border-radius:12px;
-    margin-bottom:15px;
-    box-shadow:0 2px 10px rgba(0,0,0,.07);
+/* SHOP INFORMATION */
+
+.shop-info {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
-.section-title{
-    background:#198754;
-    color:white;
-    padding:11px;
-    border-radius:8px;
-    margin-bottom:15px;
-    font-size:18px;
+.shop-info h2 {
+    font-size: 21px;
 }
 
-/* GREEN FIELD SURROUNDING */
-.field{
-    background:#198754;
-    padding:8px;
-    border-radius:9px;
-    margin-bottom:10px;
+.shop-info p {
+    margin-top: 6px;
+    color: #555;
 }
 
-.field label{
-    display:block;
-    color:white;
-    font-weight:bold;
-    margin-bottom:5px;
+/* TOP INPUT BOXES */
+
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.field input,
-.field select{
-    width:100%;
-    background:white;
-    color:#111;
-    border:1px solid #ddd;
-    border-radius:6px;
-    padding:11px;
-    outline:none;
+.box {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 12px;
 }
 
-.row{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
+.box label {
+    display: block;
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 6px;
 }
 
-@media(max-width:650px){
-    .row{
-        grid-template-columns:1fr;
-    }
+.box input,
+.box select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    font-size: 15px;
 }
 
-/* BUTTONS */
-button{
-    border:none;
-    cursor:pointer;
+/* BUTTON */
+
+button {
+    width: 100%;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.green-btn{
-    background:#198754;
-    color:white;
-    padding:11px 16px;
-    border-radius:7px;
-    font-weight:bold;
+button:hover {
+    background: #1d4ed8;
 }
 
-.red-btn{
-    background:#dc3545;
-    color:white;
-    padding:9px 14px;
-    border-radius:7px;
+/* CUSTOMER TOTAL */
+
+.customer-total {
+    background: white;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
-.blue-btn{
-    background:#0d6efd;
-    color:white;
-    padding:9px 14px;
-    border-radius:7px;
+.customer-total h2 {
+    font-size: 18px;
 }
 
-/* CUSTOMER CART */
-.cart-item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:10px;
-    margin:7px 0;
-    background:#eef7f1;
-    border-radius:7px;
+.customer-total .amount {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 7px;
 }
 
-body.dark .cart-item{
-    background:#26342d;
+/* CUSTOMER */
+
+.customer-box {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
 }
 
-/* STATS */
-.stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
+.customer-box h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
-@media(max-width:700px){
-    .stats{
-        grid-template-columns:1fr;
-    }
+.customer-box input {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
 }
 
-.stat{
-    background:white;
-    border-radius:12px;
-    padding:18px;
-    text-align:center;
-    box-shadow:0 2px 10px rgba(0,0,0,.07);
+/* CART */
+
+.cart {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
 }
 
-.stat h3{
-    color:#198754;
-    margin-bottom:8px;
+.cart h2 {
+    margin-bottom: 10px;
 }
 
-.stat strong{
-    font-size:23px;
+.cart-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
 }
 
-/* INVENTORY */
-.inventory-box{
-    background:white;
-    padding:12px;
-    border-radius:12px;
-    overflow-x:auto;
+.cart-item input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:600px;
+.remove-btn {
+    background: #dc2626;
+    padding: 7px;
+    font-size: 12px;
 }
 
-th{
-    background:#198754;
-    color:white;
-    padding:10px;
+/* STATISTICS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-td{
-    padding:9px;
-    border-bottom:1px solid #ddd;
-    text-align:center;
+.stat {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat h3 {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.stat p {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+/* ADD PRODUCT */
+
+.add-product {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 18px;
+    margin-bottom: 15px;
+}
+
+.add-product h2 {
+    margin-bottom: 12px;
+    font-size: 19px;
+}
+
+.product-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+.product-form input {
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+}
+
+/* PRODUCTS */
+
+.products {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.products h2 {
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 9px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    font-size: 14px;
+}
+
+th {
+    background: #f3f4f6;
+}
+
+.delete-btn {
+    background: #dc2626;
+    padding: 6px 9px;
+    width: auto;
+    font-size: 12px;
+}
+
+.edit-btn {
+    background: #f59e0b;
+    padding: 6px 9px;
+    width: auto;
+    font-size: 12px;
 }
 
 /* LOW STOCK */
-.low-stock{
-    background:#fff3cd;
-    color:#856404;
-    padding:12px;
-    border-radius:8px;
-    margin-top:10px;
+
+.low-stock {
+    background: white;
+    border: 2px solid #555;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
 }
 
-body.dark .low-stock{
-    background:#4a3d15;
-    color:#ffe69c;
+.low-stock h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#lowStockList {
+    list-style: none;
+}
+
+#lowStockList li {
+    padding: 9px;
+    border-bottom: 1px solid #ddd;
 }
 
 /* PROFIT */
-.profit-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
+
+.profit {
+    background: white;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
 }
 
-@media(max-width:700px){
-    .profit-grid{
-        grid-template-columns:1fr;
-    }
+.profit h2 {
+    font-size: 18px;
 }
 
-.profit-card{
-    padding:18px;
-    border-radius:10px;
-    text-align:center;
-    background:#e9f7ef;
+#profitAmount {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 8px;
+    padding: 10px;
+    border-radius: 8px;
 }
 
-.profit-card.loss{
-    background:#f8d7da;
+.profit-good {
+    background: #dcfce7;
+    color: #166534;
+    border: 2px solid #22c55e;
 }
 
-.profit-card h3{
-    margin-bottom:8px;
-}
-
-/* BOTTOM ACTIONS */
-.bottom-actions{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-    margin:20px 0;
-}
-
-.bottom-actions button{
-    padding:9px 15px;
-    border-radius:7px;
-    color:white;
-    font-weight:bold;
-}
-
-.users-btn{
-    background:#0d6efd;
-}
-
-.logout-btn{
-    background:#dc3545;
-}
-
-.reset-btn{
-    background:#6c757d;
+.profit-loss {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 2px solid #ef4444;
 }
 
 /* USERS */
-.user-row{
-    padding:10px;
-    border-bottom:1px solid #ddd;
+
+.users {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.users h2 {
+    margin-bottom: 10px;
+}
+
+.user-row {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
 /* RECEIPT */
-.receipt{
-    display:none;
-    background:white;
-    color:#111;
-    width:100%;
-    max-width:420px;
-    margin:15px auto;
-    padding:20px;
-    border-radius:8px;
+
+.receipt {
+    display: none;
+    background: white;
+    border: 2px solid #111827;
+    border-radius: 12px;
+    padding: 22px;
+    margin-top: 15px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.08);
 }
 
-.receipt h2,
-.receipt h3{
-    text-align:center;
+.receipt-header {
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 2px dashed #777;
 }
 
-.receipt-line{
-    display:flex;
-    justify-content:space-between;
-    padding:5px 0;
+.receipt-header h2 {
+    font-size: 25px;
+    margin-bottom: 5px;
 }
 
-.receipt-total{
-    border-top:2px solid #111;
-    margin-top:8px;
-    padding-top:8px;
-    font-weight:bold;
+.receipt-header p {
+    margin: 4px 0;
+    font-size: 14px;
 }
 
-.receipt-buttons{
-    display:flex;
-    gap:8px;
-    justify-content:center;
-    margin-top:15px;
+.receipt-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    padding: 12px 0;
+    font-size: 13px;
 }
 
-/* PRINT RECEIPT ONLY */
-@media print{
-    body *{
-        visibility:hidden !important;
-    }
+.receipt-items-title {
+    display: grid;
+    grid-template-columns: 2fr .7fr 1fr;
+    gap: 5px;
+    padding: 9px 0;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    font-weight: bold;
+}
 
-    #receipt,
-    #receipt *{
-        visibility:visible !important;
-    }
+.receipt-item {
+    display: grid;
+    grid-template-columns: 2fr .7fr 1fr;
+    gap: 5px;
+    padding: 9px 0;
+    border-bottom: 1px dashed #ccc;
+    font-size: 14px;
+}
 
-    #receipt{
-        display:block !important;
-        position:absolute;
-        left:0;
-        top:0;
-        width:100%;
-        max-width:420px;
-        margin:0;
-        box-shadow:none;
-    }
+.receipt-summary {
+    margin-top: 12px;
+    border-top: 2px solid #222;
+    padding-top: 8px;
+}
 
-    .receipt-buttons{
-        display:none !important;
-    }
+.receipt-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+}
+
+.receipt-total-line {
+    font-size: 21px;
+    font-weight: bold;
+    border-top: 1px dashed #777;
+    margin-top: 5px;
+    padding-top: 10px;
+}
+
+.receipt-footer {
+    text-align: center;
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 2px dashed #777;
+    font-size: 13px;
+}
+
+.send-btn {
+    margin-top: 15px;
+    background: #16a34a;
+}
+
+.print-btn {
+    margin-top: 8px;
+    background: #374151;
+}
+
+/* RESET */
+
+.reset-box {
+    background: white;
+    border: 2px solid #dc2626;
+    border-radius: 10px;
+    padding: 18px;
+    margin-top: 15px;
+}
+
+.reset-box h2 {
+    color: #b91c1c;
+    margin-bottom: 8px;
+}
+
+.reset-box p {
+    font-size: 13px;
+    margin-bottom: 12px;
+    color: #555;
+}
+
+.reset-btn {
+    background: #dc2626;
+}
+
+.reset-btn:hover {
+    background: #991b1b;
 }
 
 /* FOOTER */
-footer{
-    text-align:center;
-    padding:20px;
-    color:#666;
+
+.footer {
+    text-align: center;
+    padding: 25px;
+    color: #666;
+    font-size: 13px;
 }
 
-body.dark footer{
-    color:#aaa;
+/* DARK MODE */
+
+body.dark {
+    background: #111827;
+    color: #f9fafb;
+}
+
+body.dark .box,
+body.dark .customer-total,
+body.dark .customer-box,
+body.dark .cart,
+body.dark .stat,
+body.dark .add-product,
+body.dark .products,
+body.dark .low-stock,
+body.dark .profit,
+body.dark .users,
+body.dark #loginScreen,
+body.dark .receipt,
+body.dark .shop-info,
+body.dark .reset-box {
+    background: #1f2937;
+    color: white;
+    border-color: #4b5563;
+}
+
+body.dark .shop-info p,
+body.dark .reset-box p {
+    color: #d1d5db;
+}
+
+body.dark input,
+body.dark select {
+    background: #374151;
+    color: white;
+    border-color: #6b7280;
+}
+
+body.dark th {
+    background: #374151;
+}
+
+body.dark td,
+body.dark th,
+body.dark .user-row,
+body.dark #lowStockList li {
+    border-color: #4b5563;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .input-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .product-form {
+        grid-template-columns: 1fr;
+    }
+
+    .products {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 650px;
+    }
+
+    .cart-item {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .top-actions {
+        flex-direction: column;
+    }
+
+    .top-actions button {
+        width: 100%;
+    }
+
+    .receipt-meta {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<button id="themeBtn" onclick="toggleTheme()">☾</button>
-
 <!-- LOGIN -->
-<div id="loginPage">
 
-<div class="login-box" id="loginBox">
+<div id="loginScreen">
 
-<h1>SMALL INVENTORY BUSINESS</h1>
-<h2>Login</h2>
+    <h2>SMALL INVENTORY BUSINESS</h2>
 
-<input id="loginShop" placeholder="Shop Name">
-<input id="loginUser" placeholder="Username">
-<input id="loginPass" type="password" placeholder="Password">
-<input id="loginPhone" placeholder="Shop Phone">
+    <input
+        class="login-input"
+        id="shopName"
+        type="text"
+        placeholder="Shop name">
 
-<button class="main-btn" onclick="login()">LOGIN</button>
+    <input
+        class="login-input"
+        id="username"
+        type="text"
+        placeholder="Username">
 
-<div class="switch" onclick="showRegister()">
-Don't have an account? Create one
+    <input
+        class="login-input"
+        id="password"
+        type="password"
+        placeholder="Password">
+
+    <input
+        class="login-input"
+        id="shopPhone"
+        type="tel"
+        placeholder="Shop phone number">
+
+    <div class="login-buttons">
+
+        <button onclick="login()">
+            LOGIN
+        </button>
+
+        <button
+            class="secondary-btn"
+            onclick="createAccount()">
+            CREATE ACCOUNT
+        </button>
+
+    </div>
+
 </div>
 
-</div>
 
-<div class="login-box" id="registerBox" style="display:none">
+<!-- MAIN APP -->
 
-<h1>SMALL INVENTORY BUSINESS</h1>
-<h2>Create Account</h2>
+<div id="app" style="display:none;">
 
-<input id="regShop" placeholder="Shop Name">
-<input id="regUser" placeholder="Username">
-<input id="regPass" type="password" placeholder="Password">
-<input id="regPhone" placeholder="Shop Phone">
-
-<button class="main-btn" onclick="register()">CREATE ACCOUNT</button>
-
-<div class="switch" onclick="showLogin()">
-Already have an account? Login
-</div>
-
-</div>
-
-</div>
-
-
-<!-- APPLICATION -->
-<div id="app">
-
-<header>
-<h1>SMALL INVENTORY BUSINESS</h1>
-<p id="shopHeader"></p>
+<header class="header">
+    <h1>SMALL INVENTORY BUSINESS</h1>
+    <p>Business Dashboard</p>
 </header>
 
+<div class="container">
 
-<!-- SHOP INFORMATION -->
-<div class="box">
+    <!-- TOP ACTIONS -->
 
-<div class="section-title">SHOP INFORMATION</div>
+    <div class="top-actions">
 
-<div class="row">
+        <button
+            class="mode"
+            onclick="toggleDarkMode()">
+            🌙 DARK / LIGHT
+        </button>
 
-<div class="field">
-<label>Shop Name</label>
-<input id="shopName" readonly>
+        <button
+            onclick="showUsers()">
+            👥 USERS
+        </button>
+
+        <button
+            class="logout"
+            onclick="logout()">
+            LOGOUT
+        </button>
+
+    </div>
+
+
+    <!-- SHOP INFORMATION -->
+
+    <div class="shop-info">
+
+        <h2 id="dashboardShopName">
+            SMALL INVENTORY BUSINESS
+        </h2>
+
+        <p>
+            📞 <span id="dashboardShopPhone">-</span>
+        </p>
+
+    </div>
+
+
+    <!-- CUSTOMER PHONE -->
+
+    <div class="customer-box">
+
+        <h2>Customer Information</h2>
+
+        <input
+            type="tel"
+            id="customerPhone"
+            placeholder="Customer phone number">
+
+    </div>
+
+
+    <!-- PRODUCT / PRICE / CASH / CHANGE -->
+
+    <div class="input-grid">
+
+        <div class="box">
+
+            <label>Product</label>
+
+            <select id="saleProduct">
+
+                <option value="">
+                    Select product
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="box">
+
+            <label>Quantity</label>
+
+            <input
+                type="number"
+                id="saleQuantity"
+                value="1"
+                min="1"
+                step="1">
+
+        </div>
+
+
+        <div class="box">
+
+            <label>Cash</label>
+
+            <input
+                type="number"
+                id="cash"
+                placeholder="0"
+                min="0">
+
+        </div>
+
+
+        <div class="box">
+
+            <label>Change</label>
+
+            <input
+                type="number"
+                id="change"
+                placeholder="0"
+                readonly>
+
+        </div>
+
+    </div>
+
+
+    <button onclick="addToCart()">
+        ADD PRODUCT TO CUSTOMER
+    </button>
+
+
+    <!-- CART -->
+
+    <div class="cart">
+
+        <h2>Customer Products</h2>
+
+        <div id="cartList">
+            No products added.
+        </div>
+
+    </div>
+
+
+    <!-- TOTAL PER CUSTOMER -->
+
+    <div class="customer-total">
+
+        <h2>Total Payment Per Customer</h2>
+
+        <div
+            class="amount"
+            id="customerTotal">
+            MK 0
+        </div>
+
+    </div>
+
+
+    <button onclick="recordSale()">
+        RECORD CUSTOMER SALE
+    </button>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <h3>
+                Products Remaining
+            </h3>
+
+            <p id="remaining">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h3>
+                Total Sales
+            </h3>
+
+            <p id="totalSales">
+                MK 0
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h3>
+                Total Cost of Sales
+            </h3>
+
+            <p id="totalCost">
+                MK 0
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD PRODUCT -->
+
+    <div class="add-product">
+
+        <h2>
+            Add Product
+        </h2>
+
+        <div class="product-form">
+
+            <input
+                type="text"
+                id="productName"
+                placeholder="Product name">
+
+            <input
+                type="number"
+                id="buyPrice"
+                placeholder="Buy price"
+                min="0">
+
+            <input
+                type="number"
+                id="sellPrice"
+                placeholder="Sell price"
+                min="0">
+
+            <input
+                type="number"
+                id="quantity"
+                placeholder="Quantity"
+                min="1">
+
+        </div>
+
+        <br>
+
+        <button onclick="addProduct()">
+            ADD PRODUCT
+        </button>
+
+    </div>
+
+
+    <!-- PRODUCT LIST -->
+
+    <div class="products">
+
+        <h2>
+            Inventory
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Product</th>
+                    <th>Buy Price</th>
+                    <th>Sell Price</th>
+                    <th>Stock</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="productTable"></tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- LOW STOCK -->
+
+    <div class="low-stock">
+
+        <h2>
+            Products That Are Unavailable / Need To Be Ordered
+        </h2>
+
+        <ul id="lowStockList">
+
+            <li>
+                No low-stock products.
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- PROFIT -->
+
+    <div class="profit">
+
+        <h2>
+            Total Profit or Loss Per Day
+        </h2>
+
+        <div id="profitAmount"
+             class="profit-good">
+
+            MK 0
+
+        </div>
+
+    </div>
+
+
+    <!-- RECEIPT -->
+
+    <div
+        class="receipt"
+        id="receipt">
+
+        <div class="receipt-header">
+
+            <h2 id="receiptShopName">
+                SHOP
+            </h2>
+
+            <p>
+                📞 <span id="receiptShopPhone">-</span>
+            </p>
+
+            <p>
+                <strong>SALES RECEIPT</strong>
+            </p>
+
+        </div>
+
+
+        <div class="receipt-meta">
+
+            <div>
+                Receipt No:
+                <strong id="receiptNumber">-</strong>
+            </div>
+
+            <div>
+                Date:
+                <strong id="receiptDate">-</strong>
+            </div>
+
+            <div>
+                Customer:
+                <strong id="receiptCustomer">-</strong>
+            </div>
+
+            <div>
+                Time:
+                <strong id="receiptTime">-</strong>
+            </div>
+
+        </div>
+
+
+        <div class="receipt-items-title">
+
+            <span>ITEM</span>
+            <span>QTY</span>
+            <span>AMOUNT</span>
+
+        </div>
+
+
+        <div id="receiptItems"></div>
+
+
+        <div class="receipt-summary">
+
+            <div class="receipt-line receipt-total-line">
+
+                <span>TOTAL</span>
+
+                <span id="receiptTotal">
+                    MK 0
+                </span>
+
+            </div>
+
+
+            <div class="receipt-line">
+
+                <span>Cash Received</span>
+
+                <span id="receiptCash">
+                    MK 0
+                </span>
+
+            </div>
+
+
+            <div class="receipt-line">
+
+                <span>Change</span>
+
+                <span id="receiptChange">
+                    MK 0
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="receipt-footer">
+
+            <strong>
+                Thank you for shopping with us!
+            </strong>
+
+            <br><br>
+
+            Powered by
+            <strong>
+                Abdurasheed Rajab
+            </strong>
+
+        </div>
+
+
+        <button
+            class="send-btn"
+            onclick="sendReceipt()">
+            📤 SEND / SHARE RECEIPT
+        </button>
+
+
+        <button
+            class="print-btn"
+            onclick="printReceipt()">
+            🖨️ PRINT RECEIPT
+        </button>
+
+    </div>
+
+
+    <!-- USERS -->
+
+    <div
+        class="users"
+        id="usersBox"
+        style="display:none;">
+
+        <h2>
+            Registered Users
+        </h2>
+
+        <div id="usersList"></div>
+
+    </div>
+
+
+    <!-- RESET ALL -->
+
+    <div class="reset-box">
+
+        <h2>
+            ⚠️ RESET ALL DATA
+        </h2>
+
+        <p>
+            This will permanently delete the current shop's
+            products, sales, sales history and account data
+            from this browser.
+        </p>
+
+        <button
+            class="reset-btn"
+            onclick="resetAllData()">
+            🗑️ RESET EVERYTHING
+        </button>
+
+    </div>
+
 </div>
 
-<div class="field">
-<label>Shop Phone</label>
-<input id="shopPhone" readonly>
-</div>
 
-</div>
+<footer class="footer">
 
-</div>
+    Powered and developed by
+    <strong>
+        Abdurasheed Rajab
+    </strong>
 
-
-<!-- CUSTOMER -->
-<div class="box">
-
-<div class="section-title">CUSTOMER INFORMATION</div>
-
-<div class="field">
-<label>Customer Phone</label>
-<input id="customerPhone" placeholder="Enter customer phone">
-</div>
-
-</div>
-
-
-<!-- SALES -->
-<div class="box">
-
-<div class="section-title">PRODUCT / SALES</div>
-
-<div class="row">
-
-<div class="field">
-<label>Product</label>
-<select id="productSelect">
-<option value="">Select Product</option>
-</select>
-</div>
-
-<div class="field">
-<label>Quantity</label>
-<input id="quantity" type="number" min="1" step="1" value="1">
-</div>
-
-<div class="field">
-<label>Cash</label>
-<input id="cash" type="number" min="0" placeholder="Cash received">
-</div>
-
-<div class="field">
-<label>Change</label>
-<input id="change" readonly>
-</div>
-
-</div>
-
-<button class="green-btn" onclick="addToCart()">ADD PRODUCT TO CUSTOMER</button>
-
-<h3 style="margin:20px 0 10px;">CUSTOMER PRODUCTS</h3>
-
-<div id="cart"></div>
-
-<div class="field">
-<label>Total Payment Per Customer</label>
-<input id="customerTotal" readonly value="0">
-</div>
-
-<button class="green-btn" onclick="recordSale()">RECORD SALE</button>
-
-</div>
-
-
-<!-- STATISTICS -->
-<div class="stats">
-
-<div class="stat">
-<h3>PRODUCTS REMAINING</h3>
-<strong id="productsRemaining">0</strong>
-</div>
-
-<div class="stat">
-<h3>TOTAL SALES</h3>
-<strong id="totalSales">MK 0</strong>
-</div>
-
-<div class="stat">
-<h3>TOTAL COST OF SALES</h3>
-<strong id="totalCost">MK 0</strong>
-</div>
-
-</div>
-
-
-<!-- ADD PRODUCT -->
-<div class="box" style="margin-top:15px;">
-
-<div class="section-title">ADD PRODUCT</div>
-
-<div class="row">
-
-<div class="field">
-<label>Product Name</label>
-<input id="newProduct" placeholder="Product name">
-</div>
-
-<div class="field">
-<label>Buying Price</label>
-<input id="buyPrice" type="number" min="0" placeholder="Buying price">
-</div>
-
-<div class="field">
-<label>Selling Price</label>
-<input id="sellPrice" type="number" min="0" placeholder="Selling price">
-</div>
-
-<div class="field">
-<label>Quantity In Stock</label>
-<input id="stock" type="number" min="0" step="1" placeholder="Quantity">
-</div>
-
-</div>
-
-<button class="green-btn" onclick="addProduct()">ADD PRODUCT</button>
-
-</div>
-
-
-<!-- INVENTORY -->
-<div class="box">
-
-<div class="section-title">INVENTORY</div>
-
-<div class="inventory-box">
-
-<table>
-
-<thead>
-<tr>
-<th>Product</th>
-<th>Buying Price</th>
-<th>Selling Price</th>
-<th>Stock</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="inventoryBody"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-<!-- LOW STOCK -->
-<div class="box">
-
-<div class="section-title">PRODUCTS UNAVAILABLE / NEEDING REORDER</div>
-
-<div id="lowStock"></div>
-
-</div>
-
-
-<!-- PROFIT -->
-<div class="box">
-
-<div class="section-title">PROFIT / LOSS</div>
-
-<div class="profit-grid">
-
-<div class="profit-card" id="dayProfitCard">
-<h3>TODAY</h3>
-<strong id="dayProfit">MK 0</strong>
-</div>
-
-<div class="profit-card" id="weekProfitCard">
-<h3>THIS WEEK</h3>
-<strong id="weekProfit">MK 0</strong>
-</div>
-
-<div class="profit-card" id="monthProfitCard">
-<h3>THIS MONTH</h3>
-<strong id="monthProfit">MK 0</strong>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- RECEIPT -->
-<div id="receipt" class="receipt">
-
-<h2 id="receiptShop">SMALL INVENTORY BUSINESS</h2>
-<h3>SALES RECEIPT</h3>
-
-<hr>
-
-<div class="receipt-line">
-<span>Receipt No.</span>
-<span id="receiptNo"></span>
-</div>
-
-<div class="receipt-line">
-<span>Date</span>
-<span id="receiptDate"></span>
-</div>
-
-<div class="receipt-line">
-<span>Customer</span>
-<span id="receiptCustomer"></span>
-</div>
-
-<hr>
-
-<div id="receiptItems"></div>
-
-<div class="receipt-line receipt-total">
-<span>TOTAL</span>
-<span id="receiptTotal"></span>
-</div>
-
-<div class="receipt-line">
-<span>Cash</span>
-<span id="receiptCash"></span>
-</div>
-
-<div class="receipt-line">
-<span>Change</span>
-<span id="receiptChange"></span>
-</div>
-
-<hr>
-
-<p style="text-align:center;margin-top:12px;">
-Thank you for shopping with us!
-</p>
-
-<p style="text-align:center;font-size:12px;margin-top:8px;">
-Powered and developed by Abdurasheed Rajab
-</p>
-
-<div class="receipt-buttons">
-<button class="blue-btn" onclick="window.print()">PRINT RECEIPT</button>
-<button class="green-btn" onclick="shareReceipt()">SEND / SHARE</button>
-</div>
-
-</div>
-
-
-<!-- USERS -->
-<div class="box" id="usersBox" style="display:none;">
-
-<div class="section-title">USERS</div>
-
-<div id="usersList"></div>
-
-</div>
-
-
-<!-- BOTTOM BUTTONS -->
-<div class="bottom-actions">
-
-<button class="users-btn" onclick="toggleUsers()">USERS</button>
-
-<button class="logout-btn" onclick="logout()">LOGOUT</button>
-
-<button class="reset-btn" onclick="resetData()">RESET</button>
-
-</div>
-
-
-<footer>
-Powered and developed by Abdurasheed Rajab
 </footer>
 
 </div>
 
 
 <script>
-let currentAccount=null;
-let cart=[];
-let receiptCounter=1;
+
+/* =========================
+   ACCOUNT DATA
+========================= */
+
+let accounts =
+    JSON.parse(
+        localStorage.getItem(
+            "inventoryAccounts"
+        )
+    ) || [];
 
 
-/* STORAGE */
+/* =========================
+   CURRENT USER
+========================= */
 
-function accounts(){
-    return JSON.parse(localStorage.getItem("sib_accounts") || "[]");
-}
-
-function saveAccounts(a){
-    localStorage.setItem("sib_accounts",JSON.stringify(a));
-}
-
-function dataKey(){
-    return "sib_data_" + currentAccount.username + "_" + currentAccount.phone;
-}
-
-function getData(){
-    return JSON.parse(localStorage.getItem(dataKey()) || '{"products":[],"sales":[],"loginHistory":[]}');
-}
-
-function saveData(data){
-    localStorage.setItem(dataKey(),JSON.stringify(data));
-}
-
-
-/* LOGIN / REGISTER */
-
-function showRegister(){
-    loginBox.style.display="none";
-    registerBox.style.display="block";
-}
-
-function showLogin(){
-    registerBox.style.display="none";
-    loginBox.style.display="block";
-}
-
-function register(){
-
-    const shop=regShop.value.trim();
-    const user=regUser.value.trim();
-    const pass=regPass.value;
-    const phone=regPhone.value.trim();
-
-    if(!shop || !user || !pass || !phone){
-        alert("Please fill in all fields.");
-        return;
-    }
-
-    let a=accounts();
-
-    if(a.some(x=>x.username.toLowerCase()===user.toLowerCase() && x.phone===phone)){
-        alert("This account already exists.");
-        return;
-    }
-
-    a.push({
-        shop:shop,
-        username:user,
-        password:pass,
-        phone:phone,
-        created:new Date().toISOString()
-    });
-
-    saveAccounts(a);
-
-    alert("Account created successfully.");
-
-    loginShop.value=shop;
-    loginUser.value=user;
-    loginPhone.value=phone;
-
-    showLogin();
-}
-
-
-function login(){
-
-    const shop=loginShop.value.trim();
-    const user=loginUser.value.trim();
-    const pass=loginPass.value;
-    const phone=loginPhone.value.trim();
-
-    let a=accounts();
-
-    const found=a.find(x=>
-        x.shop===shop &&
-        x.username===user &&
-        x.password===pass &&
-        x.phone===phone
+let currentUser =
+    JSON.parse(
+        localStorage.getItem(
+            "inventoryCurrentUser"
+        )
     );
 
-    if(!found){
-        alert("Incorrect login details.");
+
+/* =========================
+   BUSINESS DATA
+========================= */
+
+let products = [];
+let totalSales = 0;
+let totalCost = 0;
+let salesHistory = [];
+
+
+/* =========================
+   CUSTOMER CART
+========================= */
+
+let cart = [];
+
+
+/* =========================
+   LAST RECEIPT
+========================= */
+
+let lastReceipt = null;
+
+
+/* =========================
+   STORAGE KEY
+========================= */
+
+function storageKey(type) {
+
+    if (!currentUser) {
+
+        return "inventory_" + type;
+
+    }
+
+    return (
+        "inventory_" +
+        type +
+        "_" +
+        currentUser.username +
+        "_" +
+        currentUser.shopPhone
+    );
+
+}
+
+
+/* =========================
+   LOAD USER DATA
+========================= */
+
+function loadUserData() {
+
+    if (!currentUser) return;
+
+
+    products =
+        JSON.parse(
+            localStorage.getItem(
+                storageKey("products")
+            )
+        ) || [];
+
+
+    totalSales =
+        Number(
+            localStorage.getItem(
+                storageKey("sales")
+            )
+        ) || 0;
+
+
+    totalCost =
+        Number(
+            localStorage.getItem(
+                storageKey("cost")
+            )
+        ) || 0;
+
+
+    salesHistory =
+        JSON.parse(
+            localStorage.getItem(
+                storageKey("history")
+            )
+        ) || [];
+
+}
+
+
+/* =========================
+   SAVE DATA
+========================= */
+
+function saveData() {
+
+    localStorage.setItem(
+        "inventoryAccounts",
+        JSON.stringify(accounts)
+    );
+
+
+    if (!currentUser) return;
+
+
+    localStorage.setItem(
+        storageKey("products"),
+        JSON.stringify(products)
+    );
+
+
+    localStorage.setItem(
+        storageKey("sales"),
+        totalSales
+    );
+
+
+    localStorage.setItem(
+        storageKey("cost"),
+        totalCost
+    );
+
+
+    localStorage.setItem(
+        storageKey("history"),
+        JSON.stringify(salesHistory)
+    );
+
+}
+
+
+/* =========================
+   CREATE ACCOUNT
+========================= */
+
+function createAccount() {
+
+    const shopName =
+        document.getElementById(
+            "shopName"
+        ).value.trim();
+
+
+    const username =
+        document.getElementById(
+            "username"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "password"
+        ).value;
+
+
+    const shopPhone =
+        document.getElementById(
+            "shopPhone"
+        ).value.trim();
+
+
+    if (
+        !shopName ||
+        !username ||
+        !password ||
+        !shopPhone
+    ) {
+
+        alert(
+            "Please enter shop name, username, password and shop phone."
+        );
+
         return;
     }
 
-    currentAccount=found;
 
-    let data=getData();
+    const exists =
+        accounts.find(
+            user =>
+                user.username.toLowerCase() ===
+                username.toLowerCase()
+        );
 
-    data.loginHistory.push({
-        date:new Date().toISOString(),
-        username:user
+
+    if (exists) {
+
+        alert(
+            "Username already exists."
+        );
+
+        return;
+    }
+
+
+    accounts.push({
+
+        shopName:
+            shopName,
+
+        username:
+            username,
+
+        password:
+            password,
+
+        shopPhone:
+            shopPhone
+
     });
 
-    saveData(data);
 
-    openApp();
+    localStorage.setItem(
+        "inventoryAccounts",
+        JSON.stringify(accounts)
+    );
+
+
+    alert(
+        "Account created successfully. You can now login."
+    );
+
 }
 
 
-function openApp(){
+/* =========================
+   LOGIN
+========================= */
 
-    loginPage.style.display="none";
-    app.style.display="block";
+function login() {
 
-    shopName.value=currentAccount.shop;
-    shopPhone.value=currentAccount.phone;
+    const username =
+        document.getElementById(
+            "username"
+        ).value.trim();
 
-    shopHeader.textContent=
-        currentAccount.shop+" • "+currentAccount.phone;
 
-    refreshAll();
+    const password =
+        document.getElementById(
+            "password"
+        ).value;
+
+
+    const shopPhone =
+        document.getElementById(
+            "shopPhone"
+        ).value.trim();
+
+
+    const user =
+        accounts.find(
+            u =>
+                u.username === username &&
+                u.password === password &&
+                u.shopPhone === shopPhone
+        );
+
+
+    if (!user) {
+
+        alert(
+            "Incorrect username, password or shop phone."
+        );
+
+        return;
+    }
+
+
+    currentUser = user;
+
+
+    localStorage.setItem(
+        "inventoryCurrentUser",
+        JSON.stringify(user)
+    );
+
+
+    loadUserData();
+
+
+    document.getElementById(
+        "loginScreen"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "app"
+    ).style.display = "block";
+
+
+    updateApp();
+
 }
 
 
-/* PRODUCTS */
+/* =========================
+   LOGOUT
+========================= */
 
-function addProduct(){
+function logout() {
 
-    const name=newProduct.value.trim();
-    const buy=Number(buyPrice.value);
-    const sell=Number(sellPrice.value);
-    const qty=Number(stock.value);
+    localStorage.removeItem(
+        "inventoryCurrentUser"
+    );
 
-    if(!name || buy<0 || sell<0 || qty<0){
-        alert("Please enter valid product information.");
+    location.reload();
+
+}
+
+
+/* =========================
+   ADD PRODUCT
+========================= */
+
+function addProduct() {
+
+    const name =
+        document.getElementById(
+            "productName"
+        ).value.trim();
+
+
+    const buy =
+        Number(
+            document.getElementById(
+                "buyPrice"
+            ).value
+        );
+
+
+    const sell =
+        Number(
+            document.getElementById(
+                "sellPrice"
+            ).value
+        );
+
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "quantity"
+            ).value
+        );
+
+
+    if (
+        !name ||
+        buy <= 0 ||
+        sell <= 0 ||
+        quantity <= 0 ||
+        !Number.isInteger(quantity)
+    ) {
+
+        alert(
+            "Please enter valid product information."
+        );
+
         return;
     }
 
-    let data=getData();
 
-    if(data.products.some(p=>p.name.toLowerCase()===name.toLowerCase())){
-        alert("Product already exists.");
-        return;
-    }
+    products.push({
 
-    data.products.push({
-        id:Date.now(),
-        name:name,
-        buy:buy,
-        sell:sell,
-        stock:Math.floor(qty)
+        id:
+            Date.now() +
+            Math.random(),
+
+        name:
+            name,
+
+        buy:
+            buy,
+
+        sell:
+            sell,
+
+        quantity:
+            quantity
+
     });
 
-    saveData(data);
 
-    newProduct.value="";
-    buyPrice.value="";
-    sellPrice.value="";
-    stock.value="";
+    document.getElementById(
+        "productName"
+    ).value = "";
 
-    refreshAll();
+    document.getElementById(
+        "buyPrice"
+    ).value = "";
+
+    document.getElementById(
+        "sellPrice"
+    ).value = "";
+
+    document.getElementById(
+        "quantity"
+    ).value = "";
+
+
+    saveData();
+
+    updateApp();
+
 }
 
 
-function editProduct(id){
+/* =========================
+   EDIT PRODUCT
+========================= */
 
-    let data=getData();
+function editProduct(id) {
 
-    const p=data.products.find(x=>x.id===id);
+    const product =
+        products.find(
+            p => p.id === id
+        );
 
-    if(!p)return;
 
-    const name=prompt("Product name:",p.name);
-    if(name===null)return;
+    if (!product) return;
 
-    const buy=prompt("Buying price:",p.buy);
-    if(buy===null)return;
 
-    const sell=prompt("Selling price:",p.sell);
-    if(sell===null)return;
+    const name =
+        prompt(
+            "Product name:",
+            product.name
+        );
 
-    const stockValue=prompt("Stock:",p.stock);
-    if(stockValue===null)return;
 
-    p.name=name.trim();
-    p.buy=Number(buy);
-    p.sell=Number(sell);
-    p.stock=Math.floor(Number(stockValue));
+    if (name === null) return;
 
-    saveData(data);
-    refreshAll();
+
+    const buy =
+        Number(
+            prompt(
+                "Buy price:",
+                product.buy
+            )
+        );
+
+
+    const sell =
+        Number(
+            prompt(
+                "Sell price:",
+                product.sell
+            )
+        );
+
+
+    const quantity =
+        Number(
+            prompt(
+                "Stock quantity:",
+                product.quantity
+            )
+        );
+
+
+    if (
+        !name.trim() ||
+        buy <= 0 ||
+        sell <= 0 ||
+        quantity < 0 ||
+        !Number.isInteger(quantity)
+    ) {
+
+        alert(
+            "Invalid product information."
+        );
+
+        return;
+    }
+
+
+    product.name =
+        name.trim();
+
+    product.buy =
+        buy;
+
+    product.sell =
+        sell;
+
+    product.quantity =
+        quantity;
+
+
+    saveData();
+
+    updateApp();
+
 }
 
 
-function deleteProduct(id){
+/* =========================
+   DELETE PRODUCT
+========================= */
 
-    if(!confirm("Delete this product?"))return;
+function deleteProduct(id) {
 
-    let data=getData();
+    if (
+        !confirm(
+            "Delete this product?"
+        )
+    ) return;
 
-    data.products=data.products.filter(p=>p.id!==id);
 
-    saveData(data);
+    products =
+        products.filter(
+            product =>
+                product.id !== id
+        );
 
-    refreshAll();
+
+    cart =
+        cart.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    saveData();
+
+    updateApp();
+
 }
 
 
-/* PRODUCT SELECT */
+/* =========================
+   UPDATE PRODUCT SELECT
+========================= */
 
-function refreshProducts(){
+function updateProductSelect() {
 
-    const data=getData();
+    const select =
+        document.getElementById(
+            "saleProduct"
+        );
 
-    productSelect.innerHTML=
-        '<option value="">Select Product</option>';
 
-    data.products.forEach(p=>{
+    select.innerHTML =
+        '<option value="">Select product</option>';
 
-        const option=document.createElement("option");
 
-        option.value=p.id;
+    products.forEach(
+        product => {
 
-        option.textContent=
-            p.name+" — MK "+p.sell+" (Stock: "+p.stock+")";
+            const option =
+                document.createElement(
+                    "option"
+                );
 
-        if(p.stock<=0){
-            option.disabled=true;
+
+            option.value =
+                product.id;
+
+
+            option.textContent =
+                product.name +
+                " (" +
+                product.quantity +
+                " available)";
+
+
+            select.appendChild(
+                option
+            );
+
         }
+    );
 
-        productSelect.appendChild(option);
-    });
 }
 
 
-/* CART */
+/* =========================
+   ADD TO CART
+========================= */
 
-function addToCart(){
+function addToCart() {
 
-    const id=Number(productSelect.value);
-    const qty=Math.floor(Number(quantity.value));
+    const id =
+        Number(
+            document.getElementById(
+                "saleProduct"
+            ).value
+        );
 
-    if(!id || !qty || qty<1){
-        alert("Select a product and enter a valid quantity.");
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "saleQuantity"
+            ).value
+        );
+
+
+    const product =
+        products.find(
+            p => p.id === id
+        );
+
+
+    if (!product) {
+
+        alert(
+            "Please select a product."
+        );
+
         return;
     }
 
-    const data=getData();
 
-    const product=data.products.find(p=>p.id===id);
+    if (
+        quantity <= 0 ||
+        !Number.isInteger(quantity)
+    ) {
 
-    if(!product){
-        alert("Product not found.");
+        alert(
+            "Enter a valid whole quantity."
+        );
+
         return;
     }
 
-    const existing=cart.find(x=>x.id===id);
 
-    const currentQty=existing ? existing.qty : 0;
+    const alreadyInCart =
+        cart.find(
+            item =>
+                item.id === id
+        );
 
-    if(currentQty+qty>product.stock){
-        alert("Not enough stock available.");
+
+    const existingQuantity =
+        alreadyInCart
+        ? alreadyInCart.quantity
+        : 0;
+
+
+    if (
+        existingQuantity +
+        quantity >
+        product.quantity
+    ) {
+
+        alert(
+            "Not enough stock available."
+        );
+
         return;
     }
 
-    if(existing){
-        existing.qty+=qty;
-    }else{
+
+    if (alreadyInCart) {
+
+        alreadyInCart.quantity +=
+            quantity;
+
+    } else {
+
         cart.push({
-            id:product.id,
-            name:product.name,
-            buy:product.buy,
-            sell:product.sell,
-            qty:qty
+
+            id:
+                product.id,
+
+            name:
+                product.name,
+
+            buy:
+                product.buy,
+
+            sell:
+                product.sell,
+
+            quantity:
+                quantity
+
         });
+
     }
 
-    quantity.value=1;
 
-    renderCart();
+    document.getElementById(
+        "saleQuantity"
+    ).value = 1;
+
+
+    updateCart();
+
 }
 
 
-function removeFromCart(id){
+/* =========================
+   UPDATE CART
+========================= */
 
-    cart=cart.filter(x=>x.id!==id);
+function updateCart() {
 
-    renderCart();
+    const list =
+        document.getElementById(
+            "cartList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    if (cart.length === 0) {
+
+        list.textContent =
+            "No products added.";
+
+
+        document.getElementById(
+            "customerTotal"
+        ).textContent =
+            "MK 0";
+
+
+        calculateChange();
+
+        return;
+    }
+
+
+    cart.forEach(
+        item => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "cart-item";
+
+
+            const total =
+                item.sell *
+                item.quantity;
+
+
+            row.innerHTML = `
+
+                <div>
+                    <strong>
+                        ${escapeHTML(item.name)}
+                    </strong>
+                </div>
+
+                <div>
+                    MK ${item.sell.toLocaleString()}
+                </div>
+
+                <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    value="${item.quantity}"
+                    onchange="changeCartQuantity(${item.id}, this.value)"
+                >
+
+                <div>
+
+                    MK ${total.toLocaleString()}
+
+                    <br>
+
+                    <button
+                        class="remove-btn"
+                        onclick="removeFromCart(${item.id})">
+                        Remove
+                    </button>
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                row
+            );
+
+        }
+    );
+
+
+    updateCustomerTotal();
+
 }
 
 
-function renderCart(){
+/* =========================
+   CHANGE CART QUANTITY
+========================= */
 
-    cartDiv=document.getElementById("cart");
+function changeCartQuantity(
+    id,
+    value
+) {
 
-    cartDiv.innerHTML="";
+    const quantity =
+        Number(value);
 
-    let total=0;
 
-    cart.forEach(item=>{
+    const product =
+        products.find(
+            p => p.id === id
+        );
 
-        const amount=item.sell*item.qty;
 
-        total+=amount;
+    const item =
+        cart.find(
+            p => p.id === id
+        );
 
-        const div=document.createElement("div");
 
-        div.className="cart-item";
+    if (
+        !product ||
+        !item ||
+        quantity <= 0 ||
+        !Number.isInteger(quantity)
+    ) {
 
-        div.innerHTML=`
-            <span>
-                <strong>${escapeHTML(item.name)}</strong>
-                × ${item.qty}
-            </span>
+        updateCart();
 
-            <span>
-                MK ${amount.toLocaleString()}
-                <button class="red-btn"
-                onclick="removeFromCart(${item.id})">
-                X
-                </button>
-            </span>
-        `;
+        return;
+    }
 
-        cartDiv.appendChild(div);
-    });
 
-    customerTotal.value=total;
+    if (
+        quantity >
+        product.quantity
+    ) {
+
+        alert(
+            "Not enough stock."
+        );
+
+        updateCart();
+
+        return;
+    }
+
+
+    item.quantity =
+        quantity;
+
+
+    updateCart();
+
+}
+
+
+/* =========================
+   REMOVE FROM CART
+========================= */
+
+function removeFromCart(id) {
+
+    cart =
+        cart.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    updateCart();
+
+}
+
+
+/* =========================
+   CUSTOMER TOTAL
+========================= */
+
+function updateCustomerTotal() {
+
+    const total =
+        cart.reduce(
+            (sum, item) =>
+                sum +
+                item.sell *
+                item.quantity,
+            0
+        );
+
+
+    document.getElementById(
+        "customerTotal"
+    ).textContent =
+        "MK " +
+        total.toLocaleString();
+
 
     calculateChange();
+
 }
 
 
-/* CASH / CHANGE */
+/* =========================
+   CASH / CHANGE
+========================= */
 
-cash.addEventListener("input",calculateChange);
+document.getElementById(
+    "cash"
+).addEventListener(
+    "input",
+    calculateChange
+);
 
-function calculateChange(){
 
-    const total=Number(customerTotal.value)||0;
-    const money=Number(cash.value)||0;
+function calculateChange() {
 
-    change.value=Math.max(0,money-total);
+    const total =
+        cart.reduce(
+            (sum, item) =>
+                sum +
+                item.sell *
+                item.quantity,
+            0
+        );
+
+
+    const cash =
+        Number(
+            document.getElementById(
+                "cash"
+            ).value
+        ) || 0;
+
+
+    const change =
+        cash - total;
+
+
+    document.getElementById(
+        "change"
+    ).value =
+        change >= 0
+        ? change
+        : 0;
+
 }
 
 
-/* RECORD SALE */
+/* =========================
+   RECORD CUSTOMER SALE
+========================= */
 
-function recordSale(){
+function recordSale() {
 
-    if(cart.length===0){
-        alert("Add at least one product.");
+    if (cart.length === 0) {
+
+        alert(
+            "Please add products to the customer."
+        );
+
         return;
     }
 
-    const total=cart.reduce(
-        (sum,item)=>sum+(item.sell*item.qty),0
-    );
 
-    const money=Number(cash.value)||0;
+    const cash =
+        Number(
+            document.getElementById(
+                "cash"
+            ).value
+        );
 
-    if(money<total){
-        alert("Cash received is not enough.");
+
+    const total =
+        cart.reduce(
+            (sum, item) =>
+                sum +
+                item.sell *
+                item.quantity,
+            0
+        );
+
+
+    if (
+        !Number.isFinite(cash) ||
+        cash < total
+    ) {
+
+        alert(
+            "Cash received is not enough."
+        );
+
         return;
     }
 
-    let data=getData();
 
-    /* STOCK RECHECK */
+    const customerPhone =
+        document.getElementById(
+            "customerPhone"
+        ).value.trim();
 
-    for(const item of cart){
 
-        const p=data.products.find(x=>x.id===item.id);
+    /* CHECK STOCK AGAIN */
 
-        if(!p || p.stock<item.qty){
-            alert("Stock changed. Please check the products again.");
+    for (
+        const item of cart
+    ) {
+
+        const product =
+            products.find(
+                p =>
+                    p.id === item.id
+            );
+
+
+        if (
+            !product ||
+            product.quantity <
+            item.quantity
+        ) {
+
+            alert(
+                "Not enough stock for " +
+                item.name
+            );
+
+            updateApp();
+
             return;
         }
+
     }
 
-    let cost=0;
 
-    cart.forEach(item=>{
+    let saleCost = 0;
 
-        const p=data.products.find(x=>x.id===item.id);
 
-        p.stock-=item.qty;
+    cart.forEach(
+        item => {
 
-        cost+=p.buy*item.qty;
-    });
+            const product =
+                products.find(
+                    p =>
+                        p.id === item.id
+                );
 
-    const sale={
-        id:Date.now(),
-        receiptNo:"R"+Date.now(),
-        date:new Date().toISOString(),
-        customer:customerPhone.value.trim() || "Walk-in Customer",
-        items:JSON.parse(JSON.stringify(cart)),
-        total:total,
-        cash:money,
-        change:money-total,
-        cost:cost,
-        profit:total-cost
+
+            product.quantity -=
+                item.quantity;
+
+
+            saleCost +=
+                item.buy *
+                item.quantity;
+
+        }
+    );
+
+
+    totalSales += total;
+
+    totalCost += saleCost;
+
+
+    const change =
+        cash - total;
+
+
+    const now =
+        new Date();
+
+
+    const receiptNumber =
+        "R-" +
+        now.getFullYear() +
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0") +
+        String(
+            now.getDate()
+        ).padStart(2, "0") +
+        "-" +
+        String(
+            Date.now()
+        ).slice(-6);
+
+
+    const sale = {
+
+        id:
+            Date.now(),
+
+        receiptNumber:
+            receiptNumber,
+
+        date:
+            now.toISOString(),
+
+        total:
+            total,
+
+        cost:
+            saleCost,
+
+        profit:
+            total - saleCost,
+
+        cash:
+            cash,
+
+        change:
+            change,
+
+        customerPhone:
+            customerPhone,
+
+        items:
+            cart.map(
+                item => ({
+
+                    name:
+                        item.name,
+
+                    quantity:
+                        item.quantity,
+
+                    sell:
+                        item.sell,
+
+                    buy:
+                        item.buy
+
+                })
+            )
+
     };
 
-    data.sales.push(sale);
 
-    saveData(data);
+    salesHistory.push(
+        sale
+    );
 
-    showReceipt(sale);
 
-    cart=[];
+    createReceipt(
+        sale
+    );
 
-    customerPhone.value="";
-    cash.value="";
-    change.value="";
-    customerTotal.value="0";
 
-    refreshAll();
+    cart = [];
+
+
+    document.getElementById(
+        "cash"
+    ).value = "";
+
+
+    document.getElementById(
+        "change"
+    ).value = "";
+
+
+    document.getElementById(
+        "customerPhone"
+    ).value = "";
+
+
+    saveData();
+
+    updateApp();
+
+
+    alert(
+        "Customer sale recorded successfully!"
+    );
+
 }
 
 
-/* RECEIPT */
+/* =========================
+   CREATE RECEIPT
+========================= */
 
-function showReceipt(sale){
+function createReceipt(
+    sale
+) {
 
-    receipt.style.display="block";
+    lastReceipt =
+        sale;
 
-    receiptShop.textContent=currentAccount.shop;
 
-    receiptNo.textContent=sale.receiptNo;
+    const receipt =
+        document.getElementById(
+            "receipt"
+        );
 
-    receiptDate.textContent=
-        new Date(sale.date).toLocaleString();
 
-    receiptCustomer.textContent=sale.customer;
+    receipt.style.display =
+        "block";
 
-    receiptTotal.textContent=
-        "MK "+sale.total.toLocaleString();
 
-    receiptCash.textContent=
-        "MK "+sale.cash.toLocaleString();
+    const saleDate =
+        new Date(
+            sale.date
+        );
 
-    receiptChange.textContent=
-        "MK "+sale.change.toLocaleString();
 
-    receiptItems.innerHTML="";
+    document.getElementById(
+        "receiptShopName"
+    ).textContent =
+        currentUser.shopName;
 
-    sale.items.forEach(item=>{
 
-        const div=document.createElement("div");
+    document.getElementById(
+        "receiptShopPhone"
+    ).textContent =
+        currentUser.shopPhone;
 
-        div.className="receipt-line";
 
-        div.innerHTML=`
-            <span>
-                ${escapeHTML(item.name)} × ${item.qty}
-            </span>
-            <span>
-                MK ${(item.sell*item.qty).toLocaleString()}
-            </span>
-        `;
+    document.getElementById(
+        "receiptNumber"
+    ).textContent =
+        sale.receiptNumber;
 
-        receiptItems.appendChild(div);
-    });
 
-    receipt.scrollIntoView({
-        behavior:"smooth"
-    });
+    document.getElementById(
+        "receiptDate"
+    ).textContent =
+        saleDate.toLocaleDateString();
+
+
+    document.getElementById(
+        "receiptTime"
+    ).textContent =
+        saleDate.toLocaleTimeString();
+
+
+    document.getElementById(
+        "receiptCustomer"
+    ).textContent =
+        sale.customerPhone ||
+        "-";
+
+
+    const items =
+        document.getElementById(
+            "receiptItems"
+        );
+
+
+    items.innerHTML = "";
+
+
+    sale.items.forEach(
+        item => {
+
+            const line =
+                document.createElement(
+                    "div"
+                );
+
+
+            line.className =
+                "receipt-item";
+
+
+            const amount =
+                item.sell *
+                item.quantity;
+
+
+            line.innerHTML = `
+
+                <span>
+                    ${escapeHTML(item.name)}
+                </span>
+
+                <span>
+                    ${item.quantity}
+                </span>
+
+                <span>
+                    MK ${amount.toLocaleString()}
+                </span>
+
+            `;
+
+
+            items.appendChild(
+                line
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "receiptTotal"
+    ).textContent =
+        "MK " +
+        sale.total.toLocaleString();
+
+
+    document.getElementById(
+        "receiptCash"
+    ).textContent =
+        "MK " +
+        sale.cash.toLocaleString();
+
+
+    document.getElementById(
+        "receiptChange"
+    ).textContent =
+        "MK " +
+        sale.change.toLocaleString();
+
 }
 
 
-/* SHARE */
+/* =========================
+   SEND / SHARE RECEIPT
+========================= */
 
-function shareReceipt(){
+function sendReceipt() {
 
-    const text=
-`${currentAccount.shop}
-SALES RECEIPT
-Receipt: ${receiptNo.textContent}
-Date: ${receiptDate.textContent}
-Customer: ${receiptCustomer.textContent}
-Total: ${receiptTotal.textContent}
-Cash: ${receiptCash.textContent}
-Change: ${receiptChange.textContent}`;
+    if (!lastReceipt) {
 
-    if(navigator.share){
+        alert(
+            "No receipt is available."
+        );
+
+        return;
+    }
+
+
+    let message =
+        currentUser.shopName +
+        "\n";
+
+
+    message +=
+        "Shop Phone: " +
+        currentUser.shopPhone +
+        "\n";
+
+
+    message +=
+        "RECEIPT: " +
+        lastReceipt.receiptNumber +
+        "\n";
+
+
+    message +=
+        "Date: " +
+        new Date(
+            lastReceipt.date
+        ).toLocaleString() +
+        "\n";
+
+
+    message +=
+        "-------------------------\n";
+
+
+    message +=
+        "ITEMS\n";
+
+
+    lastReceipt.items.forEach(
+        item => {
+
+            message +=
+                item.name +
+                " x " +
+                item.quantity +
+                " = MK " +
+                (
+                    item.sell *
+                    item.quantity
+                ).toLocaleString() +
+                "\n";
+
+        }
+    );
+
+
+    message +=
+        "-------------------------\n";
+
+
+    message +=
+        "Total: MK " +
+        lastReceipt.total.toLocaleString() +
+        "\n";
+
+
+    message +=
+        "Cash: MK " +
+        lastReceipt.cash.toLocaleString() +
+        "\n";
+
+
+    message +=
+        "Change: MK " +
+        lastReceipt.change.toLocaleString() +
+        "\n";
+
+
+    message +=
+        "Customer Phone: " +
+        (
+            lastReceipt.customerPhone ||
+            "-"
+        ) +
+        "\n\n";
+
+
+    message +=
+        "Thank you for shopping with us!";
+
+
+    if (
+        lastReceipt.customerPhone
+    ) {
+
+        const smsURL =
+            "sms:" +
+            encodeURIComponent(
+                lastReceipt.customerPhone
+            ) +
+            "?body=" +
+            encodeURIComponent(
+                message
+            );
+
+
+        window.location.href =
+            smsURL;
+
+
+        return;
+    }
+
+
+    if (
+        navigator.share
+    ) {
 
         navigator.share({
-            title:"Sales Receipt",
-            text:text
-        });
 
-    }else{
+            title:
+                "Receipt - " +
+                currentUser.shopName,
 
-        navigator.clipboard.writeText(text);
+            text:
+                message
 
-        alert("Receipt copied. You can paste it into WhatsApp.");
-    }
-}
+        }).catch(
+            () => {}
+        );
 
-
-/* INVENTORY */
-
-function renderInventory(){
-
-    const data=getData();
-
-    inventoryBody.innerHTML="";
-
-    data.products.forEach(p=>{
-
-        const tr=document.createElement("tr");
-
-        tr.innerHTML=`
-            <td>${escapeHTML(p.name)}</td>
-            <td>MK ${p.buy.toLocaleString()}</td>
-            <td>MK ${p.sell.toLocaleString()}</td>
-            <td>${p.stock}</td>
-
-            <td>
-                <button class="blue-btn"
-                onclick="editProduct(${p.id})">
-                Edit
-                </button>
-
-                <button class="red-btn"
-                onclick="deleteProduct(${p.id})">
-                Delete
-                </button>
-            </td>
-        `;
-
-        inventoryBody.appendChild(tr);
-    });
-}
-
-
-/* LOW STOCK */
-
-function renderLowStock(){
-
-    const data=getData();
-
-    const low=data.products.filter(p=>p.stock<=5);
-
-    if(low.length===0){
-
-        lowStock.innerHTML=
-            "<p>All products have enough stock.</p>";
 
         return;
     }
 
-    lowStock.innerHTML="";
 
-    low.forEach(p=>{
+    alert(
+        "No customer phone number was provided."
+    );
 
-        const div=document.createElement("div");
-
-        div.className="low-stock";
-
-        div.textContent=
-            p.name+" — Stock: "+p.stock+
-            (p.stock===0 ? " — UNAVAILABLE" : " — NEEDS REORDER");
-
-        lowStock.appendChild(div);
-    });
 }
 
 
-/* STATISTICS */
+/* =========================
+   PRINT RECEIPT
+========================= */
 
-function refreshStats(){
+function printReceipt() {
 
-    const data=getData();
+    if (!lastReceipt) {
 
-    const remaining=data.products.reduce(
-        (sum,p)=>sum+p.stock,0
+        alert(
+            "No receipt is available."
+        );
+
+        return;
+    }
+
+
+    const receipt =
+        document.getElementById(
+            "receipt"
+        );
+
+
+    const oldDisplay =
+        receipt.style.display;
+
+
+    receipt.style.display =
+        "block";
+
+
+    window.print();
+
+
+    receipt.style.display =
+        oldDisplay;
+
+}
+
+
+/* =========================
+   UPDATE TABLE
+========================= */
+
+function updateTable() {
+
+    const table =
+        document.getElementById(
+            "productTable"
+        );
+
+
+    table.innerHTML = "";
+
+
+    products.forEach(
+        product => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHTML(product.name)}
+                </td>
+
+                <td>
+                    MK ${product.buy.toLocaleString()}
+                </td>
+
+                <td>
+                    MK ${product.sell.toLocaleString()}
+                </td>
+
+                <td>
+                    ${product.quantity}
+                </td>
+
+                <td>
+
+                    <button
+                        class="edit-btn"
+                        onclick="editProduct(${product.id})">
+                        Edit
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteProduct(${product.id})">
+                        Delete
+                    </button>
+
+                </td>
+
+            `;
+
+
+            table.appendChild(
+                row
+            );
+
+        }
     );
 
-    const sales=data.sales.reduce(
-        (sum,s)=>sum+s.total,0
+}
+
+
+/* =========================
+   LOW STOCK
+========================= */
+
+function updateLowStock() {
+
+    const list =
+        document.getElementById(
+            "lowStockList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    const lowStock =
+        products.filter(
+            product =>
+                product.quantity <= 3
+        );
+
+
+    if (
+        lowStock.length === 0
+    ) {
+
+        list.innerHTML =
+            "<li>No low-stock products.</li>";
+
+        return;
+    }
+
+
+    lowStock.forEach(
+        product => {
+
+            const item =
+                document.createElement(
+                    "li"
+                );
+
+
+            if (
+                product.quantity === 0
+            ) {
+
+                item.textContent =
+                    "❌ " +
+                    product.name +
+                    " — OUT OF STOCK";
+
+            } else {
+
+                item.textContent =
+                    "⚠️ " +
+                    product.name +
+                    " — only " +
+                    product.quantity +
+                    " remaining";
+
+            }
+
+
+            list.appendChild(
+                item
+            );
+
+        }
     );
 
-    const cost=data.sales.reduce(
-        (sum,s)=>sum+s.cost,0
+}
+
+
+/* =========================
+   TODAY'S PROFIT
+========================= */
+
+function getTodayStats() {
+
+    const today =
+        new Date()
+            .toISOString()
+            .slice(
+                0,
+                10
+            );
+
+
+    let sales = 0;
+
+    let cost = 0;
+
+
+    salesHistory.forEach(
+        sale => {
+
+            const saleDay =
+                new Date(
+                    sale.date
+                )
+                .toISOString()
+                .slice(
+                    0,
+                    10
+                );
+
+
+            if (
+                saleDay === today
+            ) {
+
+                sales +=
+                    Number(
+                        sale.total
+                    ) || 0;
+
+
+                cost +=
+                    Number(
+                        sale.cost
+                    ) || 0;
+
+            }
+
+        }
     );
 
-    productsRemaining.textContent=
+
+    return {
+
+        sales:
+            sales,
+
+        cost:
+            cost,
+
+        profit:
+            sales - cost
+
+    };
+
+}
+
+
+/* =========================
+   UPDATE DASHBOARD
+========================= */
+
+function updateDashboard() {
+
+    const remaining =
+        products.reduce(
+            (sum, product) =>
+                sum +
+                product.quantity,
+            0
+        );
+
+
+    const todayStats =
+        getTodayStats();
+
+
+    document.getElementById(
+        "remaining"
+    ).textContent =
         remaining.toLocaleString();
 
-    totalSales.textContent=
-        "MK "+sales.toLocaleString();
 
-    totalCost.textContent=
-        "MK "+cost.toLocaleString();
-}
-
-
-/* PROFIT */
-
-function sameDay(date){
-
-    const d=new Date(date);
-    const now=new Date();
-
-    return d.getFullYear()===now.getFullYear() &&
-           d.getMonth()===now.getMonth() &&
-           d.getDate()===now.getDate();
-}
+    document.getElementById(
+        "totalSales"
+    ).textContent =
+        "MK " +
+        totalSales.toLocaleString();
 
 
-function sameWeek(date){
-
-    const d=new Date(date);
-    const now=new Date();
-
-    const day=(now.getDay()+6)%7;
-
-    const start=new Date(now);
-
-    start.setHours(0,0,0,0);
-    start.setDate(now.getDate()-day);
-
-    return d>=start;
-}
+    document.getElementById(
+        "totalCost"
+    ).textContent =
+        "MK " +
+        totalCost.toLocaleString();
 
 
-function sameMonth(date){
-
-    const d=new Date(date);
-    const now=new Date();
-
-    return d.getFullYear()===now.getFullYear() &&
-           d.getMonth()===now.getMonth();
-}
+    const profitElement =
+        document.getElementById(
+            "profitAmount"
+        );
 
 
-function profitFor(filter){
+    if (
+        todayStats.profit >= 0
+    ) {
 
-    const data=getData();
-
-    return data.sales
-        .filter(s=>filter(s.date))
-        .reduce((sum,s)=>sum+s.profit,0);
-}
+        profitElement.className =
+            "profit-good";
 
 
-function updateProfit(){
+        profitElement.textContent =
+            "🟢 PROFIT: MK " +
+            todayStats.profit.toLocaleString();
 
-    const day=profitFor(sameDay);
-    const week=profitFor(sameWeek);
-    const month=profitFor(sameMonth);
+    } else {
 
-    setProfit(dayProfit,dayProfitCard,day);
-    setProfit(weekProfit,weekProfitCard,week);
-    setProfit(monthProfit,monthProfitCard,month);
-}
+        profitElement.className =
+            "profit-loss";
 
 
-function setProfit(element,card,value){
+        profitElement.textContent =
+            "🔴 LOSS: MK " +
+            Math.abs(
+                todayStats.profit
+            ).toLocaleString();
 
-    element.textContent=
-        (value>=0 ? "MK " : "-MK ")+
-        Math.abs(value).toLocaleString();
-
-    card.classList.toggle("loss",value<0);
-}
-
-
-/* USERS */
-
-function toggleUsers(){
-
-    if(usersBox.style.display==="none"){
-
-        usersBox.style.display="block";
-
-        renderUsers();
-
-    }else{
-
-        usersBox.style.display="none";
     }
+
 }
 
 
-function renderUsers(){
+/* =========================
+   SHOP INFORMATION
+========================= */
 
-    const a=accounts();
+function updateShopInformation() {
 
-    usersList.innerHTML="";
+    if (!currentUser) return;
 
-    if(a.length===0){
 
-        usersList.innerHTML="<p>No users found.</p>";
+    document.getElementById(
+        "dashboardShopName"
+    ).textContent =
+        currentUser.shopName;
+
+
+    document.getElementById(
+        "dashboardShopPhone"
+    ).textContent =
+        currentUser.shopPhone;
+
+}
+
+
+/* =========================
+   USERS
+========================= */
+
+function showUsers() {
+
+    const box =
+        document.getElementById(
+            "usersBox"
+        );
+
+
+    if (
+        box.style.display === "none"
+    ) {
+
+        box.style.display =
+            "block";
+
+    } else {
+
+        box.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    const list =
+        document.getElementById(
+            "usersList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    if (
+        accounts.length === 0
+    ) {
+
+        list.textContent =
+            "No registered users.";
 
         return;
     }
 
-    a.forEach((u,i)=>{
 
-        const div=document.createElement("div");
+    accounts.forEach(
+        user => {
 
-        div.className="user-row";
+            const row =
+                document.createElement(
+                    "div"
+                );
 
-        div.innerHTML=`
-            <strong>User ${i+1}</strong><br>
-            Shop: ${escapeHTML(u.shop)}<br>
-            Username: ${escapeHTML(u.username)}<br>
-            Phone: ${escapeHTML(u.phone)}<br>
-            Registered:
-            ${new Date(u.created).toLocaleString()}
-        `;
 
-        usersList.appendChild(div);
-    });
+            row.className =
+                "user-row";
+
+
+            row.innerHTML = `
+
+                👤 <strong>
+                    ${escapeHTML(user.username)}
+                </strong>
+
+                <br>
+
+                🏪 ${escapeHTML(user.shopName)}
+
+                <br>
+
+                📞 ${escapeHTML(user.shopPhone)}
+
+            `;
+
+
+            list.appendChild(
+                row
+            );
+
+        }
+    );
+
 }
 
 
-/* LOGOUT */
+/* =========================
+   RESET ALL DATA
+========================= */
 
-function logout(){
+function resetAllData() {
 
-    if(!confirm("Logout from this account?"))return;
+    if (!currentUser) {
 
-    currentAccount=null;
-    cart=[];
+        alert(
+            "Please login first."
+        );
 
-    app.style.display="none";
-    loginPage.style.display="flex";
+        return;
+    }
 
-    loginPass.value="";
+
+    const firstConfirm =
+        confirm(
+            "WARNING!\n\nThis will delete all products, sales, history and the current account data.\n\nDo you want to continue?"
+        );
+
+
+    if (!firstConfirm) return;
+
+
+    const secondConfirm =
+        confirm(
+            "FINAL WARNING!\n\nALL DATA FOR THIS SHOP WILL BE DELETED FROM THIS BROWSER.\n\nPress OK to permanently delete it."
+        );
+
+
+    if (!secondConfirm) return;
+
+
+    const userPrefix =
+        "inventory_";
+
+
+    localStorage.removeItem(
+        storageKey("products")
+    );
+
+
+    localStorage.removeItem(
+        storageKey("sales")
+    );
+
+
+    localStorage.removeItem(
+        storageKey("cost")
+    );
+
+
+    localStorage.removeItem(
+        storageKey("history")
+    );
+
+
+    accounts =
+        accounts.filter(
+            user =>
+                !(
+                    user.username ===
+                    currentUser.username &&
+                    user.shopPhone ===
+                    currentUser.shopPhone
+                )
+        );
+
+
+    localStorage.setItem(
+        "inventoryAccounts",
+        JSON.stringify(accounts)
+    );
+
+
+    localStorage.removeItem(
+        "inventoryCurrentUser"
+    );
+
+
+    products = [];
+
+    totalSales = 0;
+
+    totalCost = 0;
+
+    salesHistory = [];
+
+    cart = [];
+
+    lastReceipt = null;
+
+
+    alert(
+        "All data for this shop has been deleted."
+    );
+
+
+    location.reload();
+
 }
 
 
-/* RESET */
+/* =========================
+   DARK MODE
+========================= */
 
-function resetData(){
+function toggleDarkMode() {
 
-    if(!confirm(
-        "RESET ALL DATA FOR THIS SHOP?\n\nThis will delete products and sales."
-    ))return;
+    document.body.classList.toggle(
+        "dark"
+    );
 
-    localStorage.removeItem(dataKey());
 
-    cart=[];
+    localStorage.setItem(
+        "inventoryDarkMode",
+        document.body.classList.contains(
+            "dark"
+        )
+    );
 
-    receipt.style.display="none";
-
-    refreshAll();
-
-    alert("Shop data has been reset.");
 }
 
 
-/* REFRESH */
+/* =========================
+   ESCAPE HTML
+========================= */
 
-function refreshAll(){
+function escapeHTML(value) {
 
-    refreshProducts();
-    renderInventory();
-    renderLowStock();
-    refreshStats();
-    updateProfit();
-    renderCart();
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
 }
 
 
-/* THEME */
+/* =========================
+   UPDATE EVERYTHING
+========================= */
 
-function toggleTheme(){
+function updateApp() {
 
-    document.body.classList.toggle("dark");
+    updateShopInformation();
 
-    const dark=document.body.classList.contains("dark");
+    updateProductSelect();
 
-    localStorage.setItem("sib_theme",dark ? "dark" : "light");
+    updateCart();
 
-    themeBtn.textContent=dark ? "☀" : "☾";
+    updateTable();
+
+    updateLowStock();
+
+    updateDashboard();
+
 }
 
 
-if(localStorage.getItem("sib_theme")==="dark"){
+/* =========================
+   START APP
+========================= */
 
-    document.body.classList.add("dark");
+if (
+    localStorage.getItem(
+        "inventoryDarkMode"
+    ) === "true"
+) {
 
-    themeBtn.textContent="☀";
+    document.body.classList.add(
+        "dark"
+    );
+
 }
 
 
-/* ESCAPE HTML */
+if (currentUser) {
 
-function escapeHTML(text){
+    loadUserData();
 
-    return String(text)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+
+    document.getElementById(
+        "loginScreen"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "app"
+    ).style.display = "block";
+
+
+    updateApp();
+
 }
+
 </script>
 
 </body>
-</html>
+    </html>
